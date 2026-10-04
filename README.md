@@ -129,3 +129,16 @@ http://localhost:8766
 
 - `docs/서비스_설명.md` — 서비스 구조와 폴더 안내
 - 소스 코드: `app/` (서버) · `static/` (화면)
+
+---
+
+## 사용한 오픈소스
+
+| 쓰는 곳 | 이름 | 라이선스 |
+|---|---|---|
+| 직원 캐릭터 | DiceBear "Voxel Art" 스타일 — https://www.dicebear.com | CC0 1.0 |
+| 캐릭터 그리기 | DiceBear 라이브러리 (`static/vendor/dicebear-voxel.js`) | MIT — [원문](static/vendor/dicebear-LICENSE.txt) |
+| 지도 | Leaflet · 지도 타일 © Esri | BSD-2-Clause |
+| 글꼴 | Pretendard | SIL OFL 1.1 |
+| 자료 검색 | BAAI/bge-m3 (임베딩) · BAAI/bge-reranker-v2-m3 (리랭커) | MIT · Apache-2.0 |
+| 상가 데이터 | 소상공인시장진흥공단 상가(상권)정보 (공공데이터포털) | 공공데이터 이용허락 |
