@@ -1,0 +1,18 @@
+{
+  "filename": "hook_themes.py",
+  "function": "check_themes",
+  "size": 3047,
+  "sha256": "6dac1ceaa5d0c7b7",
+  "updated_at": "2026-09-30T04:04:34.402935+00:00",
+  "functions": [
+    "_region_cfgs",
+    "check_article",
+    "check_district",
+    "check_themes",
+    "districts",
+    "forbidden",
+    "phrases",
+    "prose",
+    "single_districts"
+  ]
+}

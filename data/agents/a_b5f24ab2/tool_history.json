@@ -1,0 +1,13 @@
+{
+  "entries": [
+    {
+      "at": "2026-09-29T12:45:55.270102+00:00",
+      "added": [
+        "graph_search",
+        "rag_search"
+      ],
+      "removed": [],
+      "reason": "캐릭터 생성"
+    }
+  ]
+}

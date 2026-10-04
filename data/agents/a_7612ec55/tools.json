@@ -1,0 +1,8 @@
+{
+  "enabled": [
+    "office_computer",
+    "changwon_buzz",
+    "rag_search",
+    "graph_search"
+  ]
+}

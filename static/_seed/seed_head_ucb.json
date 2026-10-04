@@ -1,0 +1,356 @@
+{
+  "report": "head",
+  "report_no": 5,
+  "written_at_kst": "2026-09-22T23:10:00+09:00",
+  "window": {
+    "start": "2026-09-14",
+    "end": "2026-09-21"
+  },
+  "run_type": "weekly",
+  "input_reports": [
+    {
+      "report": "macro",
+      "written_at_kst": "2026-09-22T21:30:00+09:00",
+      "signal_count": 5
+    },
+    {
+      "report": "policy",
+      "written_at_kst": "2026-09-22T09:00:00+09:00",
+      "signal_count": 5
+    },
+    {
+      "report": "geo",
+      "written_at_kst": "2026-09-22T09:00:00+09:00",
+      "signal_count": 1
+    },
+    {
+      "report": "sector",
+      "written_at_kst": "2026-09-22T21:30:00+09:00",
+      "signal_count": 5
+    }
+  ],
+  "regime": {
+    "label": "reflation",
+    "basis": "MAC-003 소매판매 +1.2%로 성장 개선, MAC-001 FOMC 인상·PCE 전망 상향, MAC-002 공급충격성 유가 급등이 겹친 성장↑·물가↑ 조합"
+  },
+  "attribution": [
+    {
+      "topic": "8월 소매판매 총계 vs 외식 구성항목",
+      "signal_ids": [
+        "MAC-003",
+        "SEC-002"
+      ],
+      "decision": "keep_all",
+      "dropped_signal_id": null,
+      "reason": "동일 Census 발표에서 나왔으나 총계 성장 모멘텀과 외식 업종 구성항목으로 대상 범위가 달라 이중계산이 아니다."
+    },
+    {
+      "topic": "발전 부문 규제 완화 vs 전력 생산량 측정",
+      "signal_ids": [
+        "POL-001",
+        "SEC-001"
+      ],
+      "decision": "keep_all",
+      "dropped_signal_id": null,
+      "reason": "같은 551010을 향하지만 규칙 공표라는 발표 사건과 8월 생산지수라는 측정 사건이 서로 다르다."
+    },
+    {
+      "topic": "소매 수요 vs 소매 재고/판매 비율",
+      "signal_ids": [
+        "MAC-003",
+        "SEC-004"
+      ],
+      "decision": "keep_all",
+      "dropped_signal_id": null,
+      "reason": "기준월이 8월과 7월로 다르고 방향도 반대여서 같은 사건의 중복 계상이 아니다."
+    },
+    {
+      "topic": "정책금리 인상 vs 상공업 대출 잔액 증가",
+      "signal_ids": [
+        "MAC-001",
+        "SEC-005"
+      ],
+      "decision": "keep_all",
+      "dropped_signal_id": null,
+      "reason": "금리 결정 발표와 은행 대출잔액 측정은 별개 사건이며 전달 경로도 순이자마진과 대출자산 규모로 구분된다."
+    },
+    {
+      "topic": "방산·항공 규제 완화 두 건",
+      "signal_ids": [
+        "POL-003",
+        "GEO-001"
+      ],
+      "decision": "keep_all",
+      "dropped_signal_id": null,
+      "reason": "조달규정 개편 제안과 ITAR 품목 제외는 동일 산업을 향하나 발생 사건과 소관이 다르다."
+    },
+    {
+      "topic": "유가 급등 vs 창 내 국경조치",
+      "signal_ids": [
+        "MAC-002",
+        "GEO-001"
+      ],
+      "decision": "keep_all",
+      "dropped_signal_id": null,
+      "reason": "사우디 공급 차질로 인한 가격 급등과 무인잠수정 수출통제 완화는 무관한 사건이다."
+    }
+  ],
+  "cycle_positions": [],
+  "scoring": {
+    "weights_version": "v7-2026-09-22",
+    "report_weights": {
+      "macro": 1.0,
+      "policy": 1.0,
+      "geo": 1.0,
+      "sector": 1.0
+    },
+    "test_mode": false,
+    "universe_source": "universe.json",
+    "universe_size": 1730,
+    "universe_after_filter": 1630,
+    "signals_used": {
+      "macro": 5,
+      "policy": 5,
+      "geo": 1,
+      "sector": 5
+    },
+    "dropped_signal_ids": [],
+    "cycle_positions": {},
+    "candidates_hash": "c36a72afd2de9074"
+  },
+  "candidates": [
+    {
+      "rank": 1,
+      "ticker": "UCB",
+      "name": "United Community Banks, Inc.",
+      "gics_industry": "401010",
+      "gics_sector": "40",
+      "market_cap_usd": 4142463810,
+      "cap_bucket": "mid",
+      "score": 2.502,
+      "components": {
+        "macro": 0.96,
+        "policy": 0.0,
+        "geo": 0.0,
+        "sector": 1.19,
+        "quality": 0.352
+      },
+      "top_signals": [
+        {
+          "report": "sector",
+          "signal_id": "SEC-005",
+          "contribution": 1.19
+        },
+        {
+          "report": "macro",
+          "signal_id": "MAC-001",
+          "contribution": 0.56
+        },
+        {
+          "report": "macro",
+          "signal_id": "MAC-005",
+          "contribution": 0.4
+        }
+      ],
+      "peer_set": {
+        "level": "industry",
+        "median_pe": 14.65,
+        "median_ev_ebitda": 21.62,
+        "median_ps": 2.19
+      },
+      "hypothesis": "SEC-005와 MAC-001이 선별 근거이며, rate_sensitive_lender 노출이 실제 경로라면 최근 분기 공시에서 상업·산업 대출 평균잔액 증가와 변동금리 대출 비중 상승, 그에 따른 순이자마진 변화가 함께 확인되어야 한다.",
+      "verify_points": [
+        "최근 2분기 C&I 대출 평균잔액 증감률과 신규 약정 대비 실제 인출 비중",
+        "변동금리 대출 비중과 분기 순이자마진 추이 비교",
+        "컨퍼런스콜에서 대출 증가가 신규 수요인지 기존 약정 인출인지에 대한 설명"
+      ],
+      "summary_ko": "상공업 대출 증가와 금리 상승이 순이자마진·대출잔액에 어떻게 찍히는지 확인할 중형 은행."
+    }
+  ],
+  "avoid": [
+    {
+      "ticker": "OMC",
+      "score": -3.4528,
+      "top_signals": [
+        {
+          "report": "macro",
+          "signal_id": "MAC-002",
+          "contribution": -1.68
+        },
+        {
+          "report": "macro",
+          "signal_id": "MAC-001",
+          "contribution": -0.56
+        },
+        {
+          "report": "macro",
+          "signal_id": "MAC-003",
+          "contribution": -0.49
+        }
+      ]
+    },
+    {
+      "ticker": "MAN",
+      "score": -3.4417,
+      "top_signals": [
+        {
+          "report": "macro",
+          "signal_id": "MAC-002",
+          "contribution": -1.68
+        },
+        {
+          "report": "macro",
+          "signal_id": "MAC-001",
+          "contribution": -0.56
+        },
+        {
+          "report": "macro",
+          "signal_id": "MAC-003",
+          "contribution": -0.49
+        }
+      ]
+    },
+    {
+      "ticker": "BDX",
+      "score": -3.3604,
+      "top_signals": [
+        {
+          "report": "macro",
+          "signal_id": "MAC-002",
+          "contribution": -1.68
+        },
+        {
+          "report": "macro",
+          "signal_id": "MAC-001",
+          "contribution": -0.56
+        },
+        {
+          "report": "macro",
+          "signal_id": "MAC-003",
+          "contribution": -0.49
+        }
+      ]
+    },
+    {
+      "ticker": "CRCL",
+      "score": -3.0731,
+      "top_signals": [
+        {
+          "report": "macro",
+          "signal_id": "MAC-002",
+          "contribution": -1.68
+        },
+        {
+          "report": "macro",
+          "signal_id": "MAC-001",
+          "contribution": -0.56
+        },
+        {
+          "report": "macro",
+          "signal_id": "MAC-003",
+          "contribution": -0.49
+        }
+      ]
+    },
+    {
+      "ticker": "TSN",
+      "score": -2.9868,
+      "top_signals": [
+        {
+          "report": "macro",
+          "signal_id": "MAC-002",
+          "contribution": -1.68
+        },
+        {
+          "report": "macro",
+          "signal_id": "MAC-001",
+          "contribution": -0.56
+        },
+        {
+          "report": "macro",
+          "signal_id": "MAC-003",
+          "contribution": -0.49
+        }
+      ]
+    }
+  ],
+  "favored_traits": [
+    {
+      "trait": "energy_producer",
+      "net": 1.68
+    },
+    {
+      "trait": "rate_sensitive_lender",
+      "net": 0.96
+    },
+    {
+      "trait": "domestic_demand",
+      "net": 0.91
+    },
+    {
+      "trait": "high_beta",
+      "net": 0.49
+    },
+    {
+      "trait": "import_dependent",
+      "net": 0.42
+    },
+    {
+      "trait": "small_cap",
+      "net": 0.33
+    },
+    {
+      "trait": "cash_rich",
+      "net": 0.16
+    },
+    {
+      "trait": "high_leverage",
+      "net": -0.16
+    },
+    {
+      "trait": "commodity_producer",
+      "net": -0.42
+    },
+    {
+      "trait": "export_dependent",
+      "net": -0.42
+    },
+    {
+      "trait": "fx_exposed",
+      "net": -0.42
+    },
+    {
+      "trait": "floating_rate_debt",
+      "net": -0.56
+    },
+    {
+      "trait": "high_duration",
+      "net": -0.56
+    },
+    {
+      "trait": "low_beta",
+      "net": -0.89
+    },
+    {
+      "trait": "input_cost_sensitive",
+      "net": -1.68
+    }
+  ],
+  "shortfalls": [
+    "시총 구간 'large' 할당 9 중 5 만 채움 — 나머지는 다른 구간에서 보충",
+    "시총 구간 'mid' 할당 6 중 4 만 채움 — 나머지는 다른 구간에서 보충",
+    "산업 3개 — 최소 5개 미달 (양수 점수 종목의 산업이 부족)",
+    "근거 기준 미달로 9개만 선별 (양수 점수 747개 중 605개가 최소 근거 기준 미달로 제외)"
+  ],
+  "summary": "Reflation regime carried from the macro report. Selection was driven by SEC-005 (C&I loan balances, magnitude 2), MAC-002 (WTI supply-shock spike, z=2.23) and POL-001 (final repeal of most power-plant GHG standards), with SEC-001 reinforcing the regulated-utility names. Six plausible signal pairs were examined and none were true duplicates, so no IDs were dropped. No cycle stage was assigned: no 6-digit industry showed two distinct cycle_evidence signatures. Nine candidates cleared the evidence floor across three industries (banks 401010, electric utilities 551010, oil and gas 10102020/10102010); industry spread and two cap buckets fell short and the list was not padded.",
+  "summary_ko": "리플레이션 국면에서 상공업 대출·유가 급등·발전 규제 완화가 은행·에너지·전력 3개 산업의 후보 9개를 만들었고, 중복 제외와 사이클 단계 부여는 없었습니다.",
+  "state_update": {
+    "last_window_end": "2026-09-21",
+    "last_run_type": "weekly",
+    "notes": {
+      "cycle": "SEC-002(prices_rising)·SEC-004(inventory_to_sales_rising)는 각각 signature 1개로 단계 부여 조건 미달 — 다음 창에서 누적 확인 필요",
+      "attribution": "MAC-003과 SEC-002는 같은 Census 발표에서 파생되므로 다음 창에서도 총계·구성항목 경계 재확인 필요",
+      "shortfall": "산업 3개로 최소 5개 미달 — 조용한 주간으로 판단, 패딩하지 않음"
+    }
+  }
+}

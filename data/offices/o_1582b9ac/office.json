@@ -1,0 +1,112 @@
+{
+  "id": "o_1582b9ac",
+  "name": "경남 상권 화제 진단",
+  "goal": "경남 시·군(창원·진주·김해·양산·거제)의 화제 동네·업종을 찾아 소상공인에게 상권 진단 리포트를 준다",
+  "created_at": "2026-09-29T12:45:57.638057+00:00",
+  "departments": [
+    {
+      "id": "d_c5f50e",
+      "name": "화제 탐지부",
+      "desks": 1
+    },
+    {
+      "id": "d_d83901",
+      "name": "테마 연결부",
+      "desks": 1
+    },
+    {
+      "id": "d_6ab8ce",
+      "name": "상권 분석부",
+      "desks": 1
+    },
+    {
+      "id": "d_0e7705",
+      "name": "편집국",
+      "desks": 1
+    }
+  ],
+  "assignments": {
+    "d_c5f50e:0": "a_7612ec55",
+    "d_d83901:0": "a_bcb2ef08",
+    "d_6ab8ce:0": "a_a28223e1",
+    "d_0e7705:0": "a_b5f24ab2"
+  },
+  "libraries": [
+    "l_021c08fa",
+    "l_555baa3a",
+    "l_5c6041b0",
+    "l_6dbb3f85",
+    "l_6156e6a2"
+  ],
+  "flow": {
+    "departments": {
+      "d_c5f50e": {
+        "mode": "single"
+      },
+      "d_d83901": {
+        "mode": "single"
+      },
+      "d_6ab8ce": {
+        "mode": "repeat",
+        "repeat": {
+          "source": "d_c5f50e:0",
+          "field": "candidates",
+          "input_name": "candidate",
+          "max_concurrent": 4
+        }
+      },
+      "d_0e7705": {
+        "mode": "single"
+      }
+    },
+    "desks": {
+      "d_c5f50e:0": {
+        "task_id": "t_ea5d2e",
+        "inputs": {}
+      },
+      "d_d83901:0": {
+        "task_id": "t_7368dc",
+        "inputs": {
+          "topics": {
+            "src": "d_c5f50e:0",
+            "mode": "full",
+            "field_key": ""
+          }
+        }
+      },
+      "d_6ab8ce:0": {
+        "task_id": "t_9744c1",
+        "inputs": {}
+      },
+      "d_0e7705:0": {
+        "task_id": "t_d2a980",
+        "inputs": {
+          "topics": {
+            "src": "d_c5f50e:0",
+            "mode": "full",
+            "field_key": ""
+          },
+          "themes": {
+            "src": "d_d83901:0",
+            "mode": "full",
+            "field_key": ""
+          },
+          "health": {
+            "src": "d_6ab8ce",
+            "mode": "fields",
+            "field_key": "area, district, grade, grade_reason, total_stores, by_upjong"
+          }
+        }
+      }
+    },
+    "prepare": {
+      "computer": "l_021c08fa",
+      "tool": "naver_news",
+      "args": {
+        "window_start": "@window_start",
+        "window_end": "@window_end",
+        "queries": "창원 상권\n창원 상가\n창원 개업 폐업\n창원 재개발\n창원 축제\n창원 대형마트\n창원 임대료\n창원 도시재생\n마산 상권\n진해 상권\n상남동\n오동동\n중앙동 창원"
+      }
+    }
+  }
+}

@@ -1,0 +1,231 @@
+{
+  "tools": [
+    {
+      "id": "page_fetch",
+      "label": "페이지 본문 조회",
+      "description": "웹 페이지 하나의 본문을 읽어 제목·발행일·본문 앞부분을 돌려준다. 검색 결과에 붙은 날짜는 틀릴 수 있으므로, 날짜가 중요한 근거(기사·보도자료)는 이 도구로 페이지 자체가 밝힌 발행일을 확인한다. '발행일(페이지가 밝힌 값)'이 나오면 확인된 것이고, '확인하지 못했습니다'이면 확인되지 않은 것이다('참고 날짜'는 확정할 수 없다). 연방관보(federalregister.gov) 문서는 사이트가 자동 접근을 막으므로 이 도구가 아니라 federal_register 도구의 관보 게재일을 쓴다. 사이트가 막거나(403)·PDF·로그인 페이지는 읽지 못하며, 그때는 날짜를 확인하지 못한 것으로 처리한다.",
+      "read_only": true,
+      "params": [
+        {
+          "name": "url",
+          "type": "string",
+          "description": "읽을 페이지 주소(http:// 또는 https:// 로 시작). 검색 결과나 관보 문서의 링크를 그대로 넣는다",
+          "required": true,
+          "enum": null,
+          "minimum": null,
+          "maximum": null,
+          "wire_name": null,
+          "value_map": null
+        },
+        {
+          "name": "focus",
+          "type": "string",
+          "description": "이 페이지에서 확인하려는 사실을 짧게(선택). 예: 발표일, 시행일, 대상 국가·품목, 관세율. 주면 앞부분 절단 대신 관련 문장만 발췌한다.",
+          "required": false,
+          "enum": null,
+          "minimum": null,
+          "maximum": null,
+          "wire_name": null,
+          "value_map": null
+        }
+      ],
+      "http": {
+        "method": "GET",
+        "url": "https://page-fetch.invalid/",
+        "headers": {},
+        "send": "query",
+        "extra": {}
+      },
+      "timeout": 20,
+      "max_chars": 5000,
+      "daily_limit": 500,
+      "max_calls": null,
+      "max_calls_task": 20,
+      "format": "page_fetch"
+    },
+    {
+      "id": "rag_search",
+      "label": "전문자료 검색",
+      "description": "이 캐릭터의 전문자료(업로드한 문서)에서 검색어와 관련된 조각을 찾아 돌려준다. ticker·doc_type 을 주면 그 문서만 본다(다른 회사·다른 종류 문서 내용이 안 섞인다) — 한 회사만 다루는 업무는 검색마다 ticker 를 넣을 것.",
+      "read_only": true,
+      "params": [
+        {
+          "name": "query",
+          "type": "string",
+          "description": "찾을 내용(구체적으로 — 낱말 하나보다 짧은 문장이 더 잘 맞는다)",
+          "required": true,
+          "enum": null,
+          "minimum": null,
+          "maximum": null,
+          "wire_name": null,
+          "value_map": null
+        },
+        {
+          "name": "ticker",
+          "type": "string",
+          "description": "이 티커의 문서만 본다(문서 맨 앞 정보표의 '티커'와 일치해야 함). 비우면 전체에서 찾는다",
+          "required": false,
+          "enum": null,
+          "minimum": null,
+          "maximum": null,
+          "wire_name": null,
+          "value_map": null
+        },
+        {
+          "name": "doc_type",
+          "type": "string",
+          "description": "이 문서 종류만 본다(예: 10-K, 10-Q, Earnings Call Transcript — 문서 맨 앞 정보표의 '문서 종류'와 정확히 일치해야 함). 비우면 모든 종류에서 찾는다",
+          "required": false,
+          "enum": null,
+          "minimum": null,
+          "maximum": null,
+          "wire_name": null,
+          "value_map": null
+        },
+        {
+          "name": "k",
+          "type": "number",
+          "description": "가져올 조각 수(1~10, 기본 6)",
+          "required": false,
+          "enum": null,
+          "minimum": 1,
+          "maximum": 10,
+          "wire_name": null,
+          "value_map": null
+        }
+      ],
+      "http": {
+        "method": "GET",
+        "url": "https://rag-search.invalid/",
+        "headers": {},
+        "send": "query",
+        "extra": {}
+      },
+      "timeout": 15,
+      "max_chars": 8000,
+      "daily_limit": 1000,
+      "max_calls": null,
+      "max_calls_task": 16,
+      "format": "rag_search"
+    },
+    {
+      "id": "graph_search",
+      "label": "지식그래프 조회",
+      "description": "이 캐릭터의 지식그래프에서 개체(기업·인물·사건 등)와 그 분류·상위/하위·관계를 찾아 돌려준다. 무엇을 알고 무엇이 서로 이어져 있는지 캐물을 때 쓴다(전문자료 검색 rag_search 와 별개 — 그쪽은 원문 조각, 이쪽은 개체·관계 지도). query 에 개체 이름이나 주제어를 넣는다.",
+      "read_only": true,
+      "params": [
+        {
+          "name": "query",
+          "type": "string",
+          "description": "찾을 개체 이름이나 주제어(예: Reuters, 통신사, SEC 공시)",
+          "required": true,
+          "enum": null,
+          "minimum": null,
+          "maximum": null,
+          "wire_name": null,
+          "value_map": null
+        }
+      ],
+      "http": {
+        "method": "GET",
+        "url": "https://graph-search.invalid/",
+        "headers": {},
+        "send": "query",
+        "extra": {}
+      },
+      "timeout": 15,
+      "max_chars": 8000,
+      "daily_limit": 1000,
+      "max_calls": null,
+      "max_calls_task": 16,
+      "format": "graph_search"
+    },
+    {
+      "id": "changwon_buzz",
+      "label": "창원 상권 화제(뉴스)",
+      "description": "국내 뉴스 컴퓨터가 모은 관측 기간 기사로 창원시 동네·구별 화제 점수를 계산한다. 동네마다 점수·언급 기사 수·제목 언급 수·매체 수·함께 언급된 업종·대표 기사 2건. 뉴스 컴퓨터와 관측 기간은 플랫폼이 고정한다. 점수는 '많이 다뤄졌다'는 뜻일 뿐 상권이 좋다는 뜻이 아니다.",
+      "read_only": true,
+      "params": [
+        {
+          "name": "window_start",
+          "type": "string",
+          "description": "관측 시작일(플랫폼이 채운다)",
+          "required": false,
+          "enum": null,
+          "minimum": null,
+          "maximum": null,
+          "wire_name": null,
+          "value_map": null
+        },
+        {
+          "name": "window_end",
+          "type": "string",
+          "description": "관측 종료일(플랫폼이 채운다)",
+          "required": false,
+          "enum": null,
+          "minimum": null,
+          "maximum": null,
+          "wire_name": null,
+          "value_map": null
+        },
+        {
+          "name": "top",
+          "type": "integer",
+          "description": "돌려받을 종목 수(기본 30)",
+          "required": false,
+          "enum": null,
+          "minimum": 5,
+          "maximum": 60,
+          "wire_name": null,
+          "value_map": null
+        }
+      ],
+      "http": {
+        "method": "POST",
+        "url": "http://127.0.0.1:8766/api/changwon/buzz",
+        "headers": {},
+        "send": "json",
+        "extra": {}
+      },
+      "timeout": 60,
+      "max_chars": 20000,
+      "daily_limit": 200,
+      "max_calls": null,
+      "max_calls_task": 2,
+      "format": "json"
+    },
+    {
+      "id": "semas_district",
+      "label": "상권 진단(SEMAS)",
+      "usage": "agent",
+      "format": "json",
+      "read_only": true,
+      "description": "소상공인시장진흥공단 상가업소정보로 창원시 한 구의 업종 대분류별 점포 수·비중을 돌려준다. 구는 플랫폼이 흐름의 후보로 고정한다. 폐업률·개업률·시계열은 없다(점포 수 스냅샷만).",
+      "params": [
+        {
+          "name": "district",
+          "type": "string",
+          "description": "구 이름(플랫폼이 후보로 채운다)",
+          "required": true,
+          "enum": null,
+          "minimum": null,
+          "maximum": null,
+          "wire_name": null,
+          "value_map": null
+        }
+      ],
+      "http": {
+        "method": "POST",
+        "url": "http://127.0.0.1:8766/api/semas/health",
+        "headers": {},
+        "send": "json",
+        "extra": {}
+      },
+      "timeout": 60,
+      "max_chars": 6000,
+      "daily_limit": 300,
+      "max_calls": null,
+      "max_calls_task": 2
+    }
+  ]
+}

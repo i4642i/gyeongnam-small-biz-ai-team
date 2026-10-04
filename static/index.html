@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>경남 소상공인 상권 진단 AI 에이전트 팀</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' rx='3' fill='%233563e9'/%3E%3Crect x='4' y='3' width='8' height='6' fill='%23f5d0b0'/%3E%3Crect x='4' y='3' width='8' height='2' fill='%232c222b'/%3E%3Crect x='5' y='10' width='6' height='4' fill='%23ffffff'/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="style.css" />
+  <script>
+    /* 화면 디자인: 흰 바탕·라임(theme_v3.css). 메뉴 이름은 짧게. */
+    document.documentElement.setAttribute("data-v3", "");
+    document.write('<link rel="stylesheet" href="theme_v3.css" />');
+    document.addEventListener("DOMContentLoaded", function () {
+      var b = document.querySelector(".brand b"); if (b) b.textContent = "경남 상권 진단";
+      var names = { agents: "상담소", dashboard: "열람실", offices: "사무실" };
+      document.querySelectorAll(".topbar nav a").forEach(function (a) {
+        var k = a.getAttribute("data-nav"); if (names[k]) a.textContent = names[k];
+      });
+    });
+  </script>
+</head>
+<body>
+  <div class="event-tag">2026 · 제4회 · 경남 AI·SW 경진대회</div>
+  <header class="topbar">
+    <a class="brand" href="#/agents"><img class="brand-mark" src="mark2.png" alt="경상남도" /><b>경남 소상공인 상권 진단 AI 에이전트 팀</b><span class="brand-sub">이번 주 화제 동네, 함께 살펴드려요</span><span id="mode" class="badge" hidden></span></a>
+    <nav>
+      <a href="#/agents" data-nav="agents">경남상권의뢰 상담소</a>
+      <a href="#/dashboard" data-nav="dashboard">경남 상권 진단 대시보드</a>
+      <a href="#/offices" data-nav="offices">경남 상권 진단 사무실</a>
+    </nav>
+  </header>
+  <main id="app"></main>
+  <footer class="site-foot"><span><b>상호</b> 넥스토폴로직스(NexTopologix)</span><span><b>대표</b> 김상호</span><span><b>주소</b> 경상남도 창원시 성산구 비음로27번길 46-14, 202호(사파동)</span><span><b>전화</b> 010-2533-4642</span><span><b>이메일</b> ksh4642@nextopologix.com</span></footer>
+  <script src="vendor/dicebear-voxel.js"></script>
+  <script src="longtext.js"></script>
+  <script src="agent_tabs.js"></script>
+  <script src="docs_tab.js"></script>
+  <script src="graph_tab.js"></script>
+  <script src="computer_art.js"></script>
+  <script src="offices.js"></script>
+  <script src="office_flow.js"></script>
+  <script src="libraries.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

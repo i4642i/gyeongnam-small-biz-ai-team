@@ -1,0 +1,15 @@
+{
+  "entries": [
+    {
+      "at": "2026-09-29T12:45:53.042745+00:00",
+      "added": [
+        "graph_search",
+        "office_computer",
+        "rag_search",
+        "semas_district"
+      ],
+      "removed": [],
+      "reason": "캐릭터 생성"
+    }
+  ]
+}

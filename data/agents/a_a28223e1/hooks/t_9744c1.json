@@ -1,0 +1,18 @@
+{
+  "filename": "hook_health.py",
+  "function": "check_health",
+  "size": 3491,
+  "sha256": "14ec74e46a4bf1a5",
+  "updated_at": "2026-09-30T04:04:37.099718+00:00",
+  "functions": [
+    "_region_cfgs",
+    "check_article",
+    "check_district",
+    "check_health",
+    "districts",
+    "forbidden",
+    "phrases",
+    "prose",
+    "single_districts"
+  ]
+}

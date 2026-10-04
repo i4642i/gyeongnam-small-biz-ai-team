@@ -1,0 +1,15 @@
+{
+  "entries": [
+    {
+      "at": "2026-09-29T12:45:48.774083+00:00",
+      "added": [
+        "changwon_buzz",
+        "graph_search",
+        "office_computer",
+        "rag_search"
+      ],
+      "removed": [],
+      "reason": "캐릭터 생성"
+    }
+  ]
+}

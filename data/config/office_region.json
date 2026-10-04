@@ -1,0 +1,4 @@
+{
+  "_note": "회사(사무실) id → 지역 id(data/config/regions/<id>.json). 지역 기반 회사(상권 진단류)를 새로 만들 때 이 파일에 한 줄 추가한다. 없는 회사는 기본값 'changwon'(기존 창원 회사와 호환).",
+  "o_1582b9ac": "changwon"
+}

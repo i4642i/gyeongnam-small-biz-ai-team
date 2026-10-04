@@ -1,0 +1,7 @@
+{
+  "enabled": [
+    "office_computer",
+    "rag_search",
+    "graph_search"
+  ]
+}

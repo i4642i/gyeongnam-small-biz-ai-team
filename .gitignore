@@ -1,0 +1,14 @@
+.venv/
+__pycache__/
+.env
+node_modules/
+
+# data/ 는 직원·지역 정보·상가 캐시가 있어 함께 올린다. 실행 중에 생기는 것만 뺀다.
+data/models/
+data/embed_cache.sqlite
+data/config/index_device.json
+data/agents/*/runs/
+data/offices/*/flows/
+data/libraries/*/docs/
+*.prompt.log
+*.tmp

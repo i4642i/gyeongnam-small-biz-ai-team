@@ -1,0 +1,129 @@
+{
+  "allow_free_requests": true,
+  "strict_sources": false,
+  "tasks": [
+    {
+      "id": "t_ea5d2e",
+      "name": "상권 화제 고르기",
+      "description": "관측 기간 의뢰 지역 기사에서 화제 동네·업종 후보 10~15개",
+      "inputs": [
+        {
+          "name": "window_start",
+          "type": "text",
+          "required": true,
+          "options": [],
+          "default": ""
+        },
+        {
+          "name": "window_end",
+          "type": "text",
+          "required": true,
+          "options": [],
+          "default": ""
+        },
+        {
+          "name": "region",
+          "type": "text",
+          "required": true,
+          "options": [],
+          "default": "창원시"
+        },
+        {
+          "name": "area",
+          "type": "text",
+          "required": false,
+          "options": [],
+          "default": ""
+        },
+        {
+          "name": "upjong",
+          "type": "text",
+          "required": false,
+          "options": [],
+          "default": ""
+        }
+      ],
+      "instruction": "의뢰 지역: {region}\n의뢰 구역: {area} (비어 있으면 시 전체. 구 이름이나 '구 동' 이름이면 그 구역 안에서만 본다)\n의뢰 업종: {upjong} (비어 있으면 업종 전체)\n관측 기간: {window_start} ~ {window_end}\n\n1. rag_search 로 '상권 화제 판별 가이드'에서 기준을 먼저 찾는다.\n2. changwon_buzz 를 top 20 으로 부른다(관측 기간·뉴스 컴퓨터는 플랫폼이 채운다).\n3. 상위 동네부터 대표 기사를 office_computer(\"국내 뉴스 수집 컴퓨터\")로 확인해 무슨 사건인지 확인한다. 동명 지역(예: 중앙동)은 의뢰 지역의 어느 동네인지 확정한다.\n4. 후보 10~15개를 고른다. 보도자료성 착공식뿐인 것, 근거 약한 목록 기사는 뺀다.\n5. 본문(자유, 한국어) 뒤에 아래 JSON 을 ```json 블록 하나로 붙인다. district 는 반드시 의뢰 지역({region})의 구·시 이름 중 하나(창원시는 의창구·성산구·마산합포구·마산회원구·진해구, 구가 없는 시는 그 시 이름 그대로).\n\n{\"report\": \"changwon_topics\", \"window_start\": \"YYYY-MM-DD\", \"window_end\": \"YYYY-MM-DD\",\n \"candidates\": [{\"area\": \"\", \"district\": \"\", \"buzz_score\": 0, \"event_type\": \"\", \"event\": \"한 문장\", \"key_articles\": [{\"title\": \"\", \"domain\": \"\", \"published\": \"YYYY-MM-DD\", \"url\": \"\"}]}],\n \"excluded\": [{\"area\": \"\", \"why\": \"\"}]}\n※ 구역·업종 의뢰: 화제 점수 도구가 이미 의뢰 구역 안 동네만 골라 준다. 구역이 동 하나면 그 동과 그 안 법정동이 후보다. 후보가 적으면(1~3개) 억지로 늘리지 말고 있는 만큼만 낸다. 의뢰 업종이 있으면 그 업종과 관련된 사건을 우선한다.",
+      "output_template": "",
+      "check": null,
+      "output_schema": {
+        "type": "object",
+        "required": [
+          "report",
+          "window_start",
+          "window_end",
+          "candidates"
+        ],
+        "properties": {
+          "report": {
+            "const": "changwon_topics"
+          },
+          "candidates": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "area",
+                "district",
+                "event",
+                "key_articles"
+              ],
+              "properties": {
+                "district": {
+                  "enum": [
+                    "마산합포구",
+                    "마산회원구",
+                    "성산구",
+                    "의창구",
+                    "진해구",
+                    "거제시",
+                    "김해시",
+                    "양산시",
+                    "진주시"
+                  ]
+                },
+                "key_articles": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "title",
+                      "domain",
+                      "published",
+                      "url"
+                    ],
+                    "properties": {
+                      "title": {
+                        "type": "string"
+                      },
+                      "domain": {
+                        "type": "string"
+                      },
+                      "published": {
+                        "type": "string"
+                      },
+                      "url": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "retries": 2,
+      "on_failure": "fail",
+      "quote_source": "any",
+      "number_binding": false,
+      "required_tools": [
+        "changwon_buzz",
+        "rag_search"
+      ],
+      "max_output_tokens": null,
+      "search_budget": 25,
+      "context_budget": null
+    }
+  ]
+}

@@ -1,0 +1,116 @@
+{
+  "allow_free_requests": true,
+  "strict_sources": false,
+  "tasks": [
+    {
+      "id": "t_7368dc",
+      "name": "상권 테마 지도",
+      "description": "화제 동네를 테마로 묶음",
+      "inputs": [
+        {
+          "name": "window_start",
+          "type": "text",
+          "required": true,
+          "options": [],
+          "default": ""
+        },
+        {
+          "name": "window_end",
+          "type": "text",
+          "required": true,
+          "options": [],
+          "default": ""
+        },
+        {
+          "name": "topics",
+          "type": "json",
+          "required": true,
+          "options": [],
+          "default": ""
+        },
+        {
+          "name": "region",
+          "type": "text",
+          "required": true,
+          "options": [],
+          "default": "창원시"
+        },
+        {
+          "name": "area",
+          "type": "text",
+          "required": false,
+          "options": [],
+          "default": ""
+        },
+        {
+          "name": "upjong",
+          "type": "text",
+          "required": false,
+          "options": [],
+          "default": ""
+        }
+      ],
+      "instruction": "의뢰 지역: {region}\n의뢰 구역: {area} (비어 있으면 시 전체. 구 이름이나 '구 동' 이름이면 그 구역 안에서만 본다)\n의뢰 업종: {upjong} (비어 있으면 업종 전체)\n관측 기간: {window_start} ~ {window_end}\n화제 탐지 담당자 후보:\n{topics}\n\n1. rag_search 로 '상권 테마 사전'을 찾아 후보를 테마에 맞춘다.\n2. 후보마다 대표 테마 하나. 근거 있을 때만 2차 효과(인접 동네) 연결.\n3. 본문(자유, 한국어) 뒤에 아래 JSON.\n\n{\"report\": \"changwon_themes\", \"themes\": [{\"theme\": \"\", \"members\": [{\"area\": \"\", \"district\": \"\"}], \"risk\": \"\"}]}",
+      "output_template": "",
+      "check": null,
+      "output_schema": {
+        "type": "object",
+        "required": [
+          "report",
+          "themes"
+        ],
+        "properties": {
+          "report": {
+            "const": "changwon_themes"
+          },
+          "themes": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "theme",
+                "members"
+              ],
+              "properties": {
+                "members": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "district"
+                    ],
+                    "properties": {
+                      "district": {
+                        "enum": [
+                          "마산합포구",
+                          "마산회원구",
+                          "성산구",
+                          "의창구",
+                          "진해구",
+                          "거제시",
+                          "김해시",
+                          "양산시",
+                          "진주시"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "retries": 2,
+      "on_failure": "fail",
+      "quote_source": "any",
+      "number_binding": false,
+      "required_tools": [
+        "rag_search"
+      ],
+      "max_output_tokens": null,
+      "search_budget": 15,
+      "context_budget": null
+    }
+  ]
+}

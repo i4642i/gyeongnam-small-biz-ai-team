@@ -1,0 +1,151 @@
+{
+  "allow_free_requests": true,
+  "strict_sources": false,
+  "tasks": [
+    {
+      "id": "t_d2a980",
+      "name": "이번 주 상권 리포트",
+      "description": "화제·테마·진단을 모아 5~8개 선정",
+      "inputs": [
+        {
+          "name": "window_start",
+          "type": "text",
+          "required": true,
+          "options": [],
+          "default": ""
+        },
+        {
+          "name": "window_end",
+          "type": "text",
+          "required": true,
+          "options": [],
+          "default": ""
+        },
+        {
+          "name": "topics",
+          "type": "json",
+          "required": true,
+          "options": [],
+          "default": ""
+        },
+        {
+          "name": "themes",
+          "type": "json",
+          "required": true,
+          "options": [],
+          "default": ""
+        },
+        {
+          "name": "health",
+          "type": "json",
+          "required": true,
+          "options": [],
+          "default": ""
+        },
+        {
+          "name": "region",
+          "type": "text",
+          "required": true,
+          "options": [],
+          "default": "창원시"
+        },
+        {
+          "name": "area",
+          "type": "text",
+          "required": false,
+          "options": [],
+          "default": ""
+        },
+        {
+          "name": "upjong",
+          "type": "text",
+          "required": false,
+          "options": [],
+          "default": ""
+        }
+      ],
+      "instruction": "의뢰 지역: {region}\n의뢰 구역: {area} (비어 있으면 시 전체. 구 이름이나 '구 동' 이름이면 그 구역 안에서만 본다)\n의뢰 업종: {upjong} (비어 있으면 업종 전체)\n관측 기간: {window_start} ~ {window_end}\n[화제] {topics}\n[테마] {themes}\n[상권 진단] {health}\n\n1. rag_search 로 '선정 원칙서'를 먼저 찾는다.\n2. 5~8개 선정(구가 여럿인 지역은 구당 최대 2개, 구가 하나뿐인 시는 같은 동네를 두 번 고르지 않는다). 등급 D 도 경고로 포함 가능.\n3. 본문(자유, 소상공인 대상, 한국어) 뒤에 아래 JSON.\n\n{\"report\": \"changwon_picks\", \"window_start\": \"YYYY-MM-DD\", \"window_end\": \"YYYY-MM-DD\", \"headline\": \"이번 주 한 줄\",\n \"picks\": [{\"area\": \"\", \"district\": \"\", \"theme\": \"\", \"grade\": \"\", \"event\": \"한 문장\", \"advice\": \"소상공인 조언\",\n            \"key_article\": {\"title\": \"\", \"domain\": \"\", \"published\": \"YYYY-MM-DD\", \"url\": \"\"}}]}\n※ 구역이 좁으면 후보 수만큼(1~8개) 고른다. 업종 의뢰면 조언을 그 업종 소상공인 눈높이로 쓴다.",
+      "output_template": "",
+      "check": null,
+      "output_schema": {
+        "type": "object",
+        "required": [
+          "report",
+          "window_start",
+          "window_end",
+          "headline",
+          "picks"
+        ],
+        "properties": {
+          "report": {
+            "const": "changwon_picks"
+          },
+          "picks": {
+            "type": "array",
+            "maxItems": 8,
+            "items": {
+              "type": "object",
+              "required": [
+                "area",
+                "district",
+                "event",
+                "advice",
+                "key_article",
+                "theme",
+                "grade"
+              ],
+              "properties": {
+                "district": {
+                  "enum": [
+                    "마산합포구",
+                    "마산회원구",
+                    "성산구",
+                    "의창구",
+                    "진해구",
+                    "거제시",
+                    "김해시",
+                    "양산시",
+                    "진주시"
+                  ]
+                },
+                "key_article": {
+                  "type": "object",
+                  "required": [
+                    "title",
+                    "domain",
+                    "published",
+                    "url"
+                  ],
+                  "properties": {
+                    "title": {
+                      "type": "string"
+                    },
+                    "domain": {
+                      "type": "string"
+                    },
+                    "published": {
+                      "type": "string"
+                    },
+                    "url": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "retries": 2,
+      "on_failure": "fail",
+      "quote_source": "any",
+      "number_binding": false,
+      "required_tools": [
+        "rag_search"
+      ],
+      "max_output_tokens": null,
+      "search_budget": 8,
+      "context_budget": null
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "enabled": [
+    "semas_district",
+    "office_computer",
+    "rag_search",
+    "graph_search"
+  ]
+}

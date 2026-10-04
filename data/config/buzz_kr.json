@@ -1,0 +1,19 @@
+{
+  "_note": "국내(KOSPI) 화제 점수(buzz_score_kr) 설정(2026-09-29, 모두 임시값). 매체 등급은 초안이라 대표님 확인 필요.",
+  "universe_path": "data/config/krx_universe.json",
+  "weights": {"mentions": 1.0, "diversity": 0.8, "momentum": 0.5},
+  "title_boost": 1.5,
+  "recency_floor": 0.6,
+  "domain_tier": {
+    "1.0": ["yna.co.kr", "yonhapnews.co.kr", "newsis.com", "news1.kr", "hankyung.com", "mk.co.kr", "sedaily.com", "fnnews.com", "edaily.co.kr"],
+    "0.7": ["chosun.com", "biz.chosun.com", "joongang.co.kr", "donga.com", "hani.co.kr", "khan.co.kr", "mt.co.kr", "asiae.co.kr", "etnews.com", "zdnet.co.kr", "ddaily.co.kr", "ytn.co.kr", "sbs.co.kr", "kbs.co.kr", "imbc.com", "jtbc.co.kr"],
+    "0.4": ["newsprime.co.kr", "moneys.co.kr", "dailian.co.kr", "newspim.com", "wowtv.co.kr", "kmib.co.kr", "asiatoday.co.kr", "viewsnnews.com", "businesspost.co.kr", "ceoscoredaily.com"]
+  },
+  "default_tier": 0.5,
+  "aliases": {
+    "KT": "030200", "케이티": "030200", "KT&G": "033780", "SK바이오팜": "326030", "KT스카이라이프": "053210",
+    "현대차": "005380", "삼성화재": "000810", "포스코홀딩스": "005490", "HD현대중공업": "329180",
+    "SK": "034730", "LG": "003550", "GS": "078930", "한화": "000880"
+  },
+  "ambiguous_names": ["SK", "LG", "GS", "DB", "KT", "KB", "NH", "DL", "GC", "HD", "OCI", "DN", "코오롱", "한화", "한진", "두산", "효성", "동양", "대성", "태광", "삼양", "국도", "대한", "동국", "동원", "성보", "신원", "신영", "우리", "세방", "삼일", "일신"]
+}

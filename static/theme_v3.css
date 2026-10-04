@@ -1,0 +1,1149 @@
+/* 디자인 시안 v3 (2026-10-01) — 주소 끝에 ?v3 를 붙이면 켜지고 ?v1 을 붙이면 꺼진다. v2 와 따로 둔다.
+ * 규칙: 흰 바탕에 검정 글씨, 강조색은 라임 하나. 제목은 크고 얇게(굵게 하지 않는다), 라벨은 고정폭 글꼴,
+ * 테두리는 1px 실선, 그림자는 아주 옅게. 그라데이션·이모지·여러 강조색·굵은 제목은 쓰지 않는다.
+ * 라임은 핵심 버튼과 상태 점에만 쓰고, 라임 위 글자는 #111 이다.
+ */
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap");
+
+:root[data-v3][data-v3] {
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --surface-2: #f6f6f4;
+  --text: #111111;
+  --muted: #555555;
+  --faint: #777777;
+  --line: #e4e4e4;
+  --line-2: #dddddd;
+  --accent: #111111;          /* 일반 강조(선택 상태)는 검정, 라임은 --lime 만 */
+  --accent-text: #ffffff;
+  --lime: #b8f36b;
+  --danger: #c4372f;
+  --ok: #b8f36b;
+  --mono: "IBM Plex Mono", "IBM Plex Sans KR", ui-monospace, monospace;
+  --shadow: 0 10px 30px rgba(0, 0, 0, .05);
+  color-scheme: light;
+}
+
+[data-v3] body, [data-v3] button, [data-v3] input, [data-v3] select, [data-v3] textarea {
+  font-family: "IBM Plex Sans KR", "Noto Sans KR", "Malgun Gothic", system-ui, sans-serif;
+}
+[data-v3] body { background: var(--bg); color: var(--text); word-break: keep-all; overflow-wrap: break-word; font-size: 15px; }
+[data-v3] main, [data-v3] #app { max-width: 1560px; margin-left: auto; margin-right: auto; }
+
+/* ---------- 상단: 가운데 알약 메뉴 ---------- */
+[data-v3] .topbar { justify-content: center; background: transparent; border: 0; padding: 28px 16px 0; flex-wrap: nowrap; }
+[data-v3] .topbar > .brand, [data-v3] .topbar > nav { background: var(--surface); }
+[data-v3] .topbar { gap: 14px; }
+[data-v3] .brand { padding: 16px 28px; border: 1px solid var(--line); border-radius: 28px; box-shadow: var(--shadow); }
+[data-v3] .brand b { font-size: 26px; white-space: nowrap; font-weight: 600; }
+[data-v3] .brand-sub { display: none; }
+[data-v3] .topbar nav { display: flex; align-items: center; gap: 4px; padding: 8px 16px; border: 1px solid var(--line); border-radius: 28px; box-shadow: var(--shadow); }
+[data-v3] .topbar nav a { font-size: 24px; font-weight: 500; letter-spacing: -0.02em; word-spacing: -0.1em; color: var(--muted); border-radius: 14px; padding: 12px 16px; white-space: nowrap; }
+[data-v3] .topbar nav a:hover { color: var(--text); }
+[data-v3] .topbar nav a.active { background: var(--lime); color: #111; box-shadow: 0 0 40px var(--lime); }
+
+/* ---------- 머리글: 크고 얇은 제목 ---------- */
+[data-v3] .page-head { text-align: center; margin: 56px 0 36px; }
+[data-v3] .page-head::before { content: "[ 이번 주 ] 상권 리포트"; display: inline-block; font-size: 13px; color: var(--muted);
+  border: 1px solid var(--line-2); border-radius: 8px; padding: 3px 10px; margin-bottom: 22px; }
+[data-v3] h1 { font-size: clamp(36px, 5.2vw, 64px); line-height: 1.15; font-weight: 400; letter-spacing: -0.035em; margin: 0 0 18px; }
+[data-v3] .page-head p { color: var(--muted); max-width: 54ch; margin: 0 auto; font-size: 16px; }
+
+/* ---------- 직원 4명: "이렇게 일해요" 카드 ---------- */
+[data-v3] .team-block { background: transparent; border: 0; padding: 0; margin-bottom: 40px; }
+[data-v3] .team-block .staff { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+[data-v3] .staff-arrow { display: none; }
+[data-v3] .team-block .staff-card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 16px; box-shadow: var(--shadow); align-items: flex-start; flex-direction: column; gap: 10px; }
+[data-v3] .team-block .staff-card .muted { font-size: 13px; color: var(--muted); }
+[data-v3] .team-block .staff-card b { font-weight: 500; font-size: 15px; }
+[data-v3] .team-block .staff-card[data-state="working"] { border-color: var(--text); box-shadow: 0 0 20px var(--lime); animation: none; }
+[data-v3] .team-block .staff-card[data-state="done"] { border-color: var(--text); }
+[data-v3] .team-block .staff-card[data-state="failed"] { border-color: var(--danger); }
+[data-v3] .team-block .staff-card[data-state="wait"] { opacity: .55; }
+[data-v3] .staff-card .bubble { background: var(--text); color: #fff; border: 0; border-radius: 8px; box-shadow: none; font-weight: 400; }
+[data-v3] .staff-card .bubble::after { background: var(--text); border: 0; }
+[data-v3] .staff-card .dots i { background: #fff; }
+[data-v3] .staff-card[data-state="done"] .bubble { background: var(--lime); color: #111; }
+[data-v3] .staff-card[data-state="done"] .bubble::after { background: var(--lime); }
+[data-v3] .staff-card[data-state="failed"] .bubble { background: var(--danger); color: #fff; }
+[data-v3] .staff-card[data-state="failed"] .bubble::after { background: var(--danger); }
+@media (max-width: 900px) { [data-v3] .team-block .staff { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* ---------- 진행 알림 ---------- */
+[data-v3] .cstate { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; box-shadow: var(--shadow); }
+[data-v3] .cstate.ok { border-color: var(--text); background: var(--surface); }
+[data-v3] .cstate.failed { border-color: var(--danger); }
+[data-v3] .step-pill { font-size: 13px; border-radius: 8px; }
+[data-v3] .step-pill.running { border-color: var(--text); color: var(--text); font-weight: 500; }
+[data-v3] .step-pill.ok { border-color: var(--text); color: var(--text); background: var(--lime); }
+[data-v3] .cta-ok { background: var(--lime); color: #111; border-radius: 10px; animation: none; box-shadow: 0 0 20px var(--lime); }
+
+/* ---------- 시·군 한 줄: 흰 칩, 리포트 있으면 라임 점 ---------- */
+[data-v3] .rgn-row { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 14px 0; gap: 10px; }
+[data-v3] .rgn-chip { background: var(--surface); color: var(--text); border: 1px solid var(--line-2); border-radius: 10px; box-shadow: none; padding: 0; transition: border-color .12s; }
+[data-v3] .rgn-chip:hover { border-color: var(--text); transform: none; }
+[data-v3] .rgn-chip.on, [data-v3] .rgn-chip.running { background: var(--text); color: #fff; border-color: var(--text); }
+[data-v3] .rgn-chip.locked { opacity: .4; }
+[data-v3] .rgn-btn { color: inherit; padding: 11px 18px; min-height: 44px; }
+[data-v3] .rgn-btn .rgn-name { font-family: "IBM Plex Sans KR", sans-serif; font-weight: 500; font-size: 14px; color: inherit; letter-spacing: 0; }
+[data-v3] .rgn-roman, [data-v3] .rgn-btn .rgn-sub { display: none; }
+[data-v3] .rgn-run { color: inherit; font-size: 13px; }
+[data-v3] .rgn-spin { border-color: rgba(255, 255, 255, .35); border-top-color: #fff; }
+
+/* ---------- 경로 ---------- */
+[data-v3] .crumbs { font-size: 14px; }
+[data-v3] .crumb { border-radius: 6px; font-weight: 400; }
+[data-v3] .crumb.cur { color: var(--text); font-weight: 500; }
+
+/* ---------- 조건 패널 ---------- */
+[data-v3] .rgn.on { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow); }
+[data-v3] .rgn-panel { background: transparent; border-top: 0; }
+[data-v3] .cm-side h3 { font-size: 36px; font-weight: 400; letter-spacing: -0.03em; margin: 0 0 6px; }
+[data-v3] .step-t { font-size: 14px; font-weight: 500; color: var(--muted); }
+[data-v3] .step-n { border-radius: 6px; background: var(--text); color: #fff; font-family: var(--mono); font-weight: 500; }
+[data-v3] .rgn-panel .chip, [data-v3] .seg button, [data-v3] .scope-sel select { background: transparent; border: 1px solid var(--text); border-radius: 8px; font-size: 13.5px; }
+[data-v3] .rgn-panel .chip:hover { background: var(--surface-2); }
+[data-v3] .rgn-panel .chip.on, [data-v3] .seg button.on { background: var(--text); color: #fff; }
+[data-v3] .rgn-sum { background: transparent; border: 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); border-radius: 0; }
+[data-v3] .cta { background: var(--lime); color: #111; border-radius: 10px; min-height: 44px; font-weight: 500; box-shadow: 0 0 20px var(--lime); }
+[data-v3] .cta:hover:not(:disabled) { filter: none; box-shadow: 0 0 28px var(--lime); }
+[data-v3] .cta:disabled { box-shadow: none; }
+
+/* ---------- 지도 ---------- */
+[data-v3] .cm-map #regionMap { border-radius: 18px; border: 1px solid var(--line); box-shadow: var(--shadow); }
+[data-v3] .rpin { background: var(--surface); color: #111; border: 1px solid var(--text); border-radius: 8px; font-weight: 500; font-size: 13px; box-shadow: none; }
+[data-v3] .rpin.done { background: var(--surface); box-shadow: none; }
+[data-v3] .rpin.done::before { content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--lime); border: 1px solid #111; margin-right: 6px; vertical-align: 1px; }
+[data-v3] .rpin.sel, [data-v3] .rpin.done.sel { background: var(--text); color: #fff; outline: 0; transform: none; }
+[data-v3] .cm-dot { background: var(--lime); border: 1px solid #111; }
+[data-v3] .cm-legend { font-size: 13px; }
+
+/* ---------- 공통 버튼 ---------- */
+[data-v3] button { border-radius: 8px; }
+[data-v3] button.primary { background: var(--lime); border-color: var(--text); color: #111; font-weight: 500; box-shadow: 0 0 20px var(--lime); }
+
+/* ---------- 2차 손질 ---------- */
+/* 1. 지도: 흑백 지형으로 눌러 테마와 맞춘다 */
+/* 3. 글자 크기: 본문 14px 이상, 라벨 12px 이상, 카드 제목 17px */
+[data-v3] .small { font-size: 13px; }
+[data-v3] .muted.small { font-size: 13px; }
+[data-v3] .team-block .staff-card > div:last-child .small:not(.muted) { font-size: 14px; color: var(--text); }
+[data-v3] .team-block .staff-card b { font-size: 17px; font-weight: 500; }
+[data-v3] .cm-hint { font-size: 14px; }
+/* 4. 시·군 버튼: 리포트 있으면 라임 점 */
+[data-v3] .rgn-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--lime); border: 1px solid #111; margin-right: 8px; flex: none; vertical-align: 1px; }
+[data-v3] .rgn-btn { display: flex; align-items: center; }
+/* 5. 선택 지역 패널 머리 */
+[data-v3] .rgn-v3head { display: block; padding: 22px 20px 4px; }
+[data-v3] .rgn-v3head .rv-k { font-size: 13px; color: var(--muted); }
+[data-v3] .rgn-v3head h2 { margin: 6px 0 10px; font-size: 40px; font-weight: 400; letter-spacing: -0.035em; line-height: 1.15; }
+[data-v3] .rgn-v3head p { margin: 0 0 14px; font-size: 14px; color: var(--muted); }
+[data-v3] .rv-btn { display: inline-flex; align-items: center; min-height: 44px; padding: 0 20px; border-radius: 10px; background: var(--lime); color: #111; font-weight: 500; font-size: 15px; text-decoration: none; box-shadow: 0 0 20px var(--lime); }
+/* 7. 직원 카드 번호 칩과 섹션 간격 */
+[data-v3] .team-block .staff { counter-reset: st; }
+[data-v3] .team-block .staff-card { counter-increment: st; padding-top: 18px; }
+[data-v3] .team-block .staff-card::before { content: counter(st, decimal-leading-zero); position: absolute; top: 14px; right: 14px; font-family: var(--mono); font-size: 12px; border: 1px solid var(--line-2); border-radius: 6px; padding: 1px 7px; color: var(--muted); }
+[data-v3] .page-head { margin-bottom: 56px; }
+[data-v3] .team-block { margin-bottom: 56px; }
+[data-v3] .crumbs { margin-top: 0; }
+/* 직원 카드 높이 맞춤, 지도 동네 점은 검정·선택은 라임 */
+[data-v3] .team-block .staff { align-items: stretch; }
+[data-v3] path.leaflet-interactive { stroke: #111; fill: #111; }
+[data-v3] path.leaflet-interactive[stroke="#3563e9"] { stroke: #111; fill: #b8f36b; fill-opacity: .9; }
+
+/* ---------- 3차: 한 화면에 들어오도록 압축(스크롤 없이) ---------- */
+[data-v3] .topbar { padding: 12px 16px 0; gap: 10px; }
+[data-v3] .brand { padding: 8px 18px; border-radius: 20px; }
+[data-v3] .brand b { font-size: 17px; }
+[data-v3] .topbar nav { padding: 4px 8px; border-radius: 20px; gap: 2px; }
+[data-v3] .topbar nav a { font-size: 15px; padding: 7px 14px; border-radius: 12px; }
+[data-v3] .topbar nav a.active { box-shadow: 0 0 14px var(--lime); }
+[data-v3] .page-head { margin: 18px 0 14px; }
+[data-v3] .page-head::before { display: none; }
+[data-v3] h1 { font-size: clamp(28px, 3.2vw, 40px); margin: 0 0 4px; }
+[data-v3] .page-head p { font-size: 14px; max-width: none; }
+[data-v3] .team-block { margin-bottom: 14px; }
+[data-v3] .team-block .staff { gap: 10px; }
+[data-v3] .team-block .staff-card { flex-direction: row; align-items: center; gap: 12px; padding: 10px 14px; border-radius: 14px; box-shadow: none; }
+[data-v3] .team-block .staff-card::before { top: 8px; right: 10px; }
+[data-v3] .team-block .staff-card canvas, [data-v3] .team-block .staff-card img, [data-v3] .team-block .staff-card svg { width: 44px; height: 44px; flex: none; border-radius: 10px; }
+[data-v3] .team-block .staff-card b { font-size: 15px; }
+[data-v3] .team-block .staff-card .muted { display: none; }
+[data-v3] .team-block .staff-card > div:last-child .small:not(.muted) { font-size: 12.5px; line-height: 1.35; }
+[data-v3] .crumbs { margin: 0; padding: 0; }
+[data-v3] .rgn-row { padding: 8px 0; margin: 2px 0 10px; }
+[data-v3] .rgn-btn { min-height: 36px; padding: 6px 16px; }
+[data-v3] .cm-hint { margin: 0 0 4px; }
+/* 본문: 남은 높이를 패널과 지도가 나눠 쓴다 */
+[data-v3] .cm-body { align-items: stretch; }
+[data-v3] .cm-map #regionMap { height: calc(100vh - 506px); min-height: 340px; }
+[data-v3] .cm-side { max-height: calc(100vh - 506px); min-height: 340px; overflow-y: auto; }
+[data-v3] .rgn-v3head { padding: 14px 18px 0; }
+[data-v3] .rgn-v3head h2 { font-size: 28px; margin: 2px 0 6px; }
+[data-v3] .rgn-v3head p { margin: 0 0 10px; font-size: 13px; }
+[data-v3] .rv-btn { min-height: 38px; font-size: 14px; }
+[data-v3] .rgn-panel { gap: 10px; padding: 12px 18px 14px; }
+[data-v3] .rgn-sum { display: none; }
+[data-v3] .cm-legend { display: none; }
+/* 동네 점: 옅은 먹색에 흰 테두리로 겹쳐도 구분되게 */
+[data-v3] path.leaflet-interactive { stroke: #fff; stroke-width: 1.5; fill: #111; fill-opacity: .38; }
+[data-v3] path.leaflet-interactive[stroke="#3563e9"] { stroke: #111; stroke-width: 3; fill: #b8f36b; fill-opacity: .95; }
+/* 조건 패널과 지도를 1:1 로. 패널이 넓어진 만큼 칩이 한 줄에 더 많이 들어간다 */
+@media (min-width: 901px) { [data-v3] .cm-body.has-panel { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+[data-v3] .rgn-panel .chips { gap: 6px; }
+/* 패널 머리의 "이번 주 리포트 보기" 버튼은 뺀다(대시보드는 상단 메뉴로 간다) */
+[data-v3] .rv-btn { display: none; }
+/* 2 업종 · 3 관측 기간을 좌우로 */
+@media (min-width: 1100px) {
+  [data-v3] .rgn-panel { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 24px; }
+  [data-v3] .rgn-panel > .step:first-child, [data-v3] .rgn-panel > .cta, [data-v3] .rgn-panel > .rgn-sum { grid-column: 1 / -1; }
+}
+/* 순서: 1 업종 · 2 관측 기간(좌우) → 3 구역(아래, 전체 폭) → 의뢰 버튼. 번호는 화면 순서에 맞춰 다시 매긴다 */
+[data-v3] .rgn-panel > .step:nth-child(2) { order: 1; }
+[data-v3] .rgn-panel > .step:nth-child(3) { order: 2; }
+[data-v3] .rgn-panel > .step:nth-child(1) { order: 3; }
+[data-v3] .rgn-panel > .rgn-sum { order: 4; }
+[data-v3] .rgn-panel > .cta { order: 5; }
+[data-v3] .rgn-panel > .step .step-n { font-size: 0; }
+[data-v3] .rgn-panel > .step .step-n::after { font-size: 12px; }
+[data-v3] .rgn-panel > .step:nth-child(2) .step-n::after { content: "1"; }
+[data-v3] .rgn-panel > .step:nth-child(3) .step-n::after { content: "2"; }
+[data-v3] .rgn-panel > .step:nth-child(1) .step-n::after { content: "3"; }
+/* 조건 박스 높이를 지도와 똑같이 맞추고, 의뢰 버튼은 박스 맨 아래에 붙인다 */
+@media (min-width: 901px) {
+  [data-v3] .cm-side { height: calc(100vh - 506px); min-height: 340px; max-height: none; display: flex; flex-direction: column; }
+  [data-v3] .cm-side > .rgn.on { flex: 1; min-height: 0; display: flex; flex-direction: column; overflow-y: auto; }
+  [data-v3] .cm-side .rgn-panel { flex: 1; align-content: start; }
+}
+@media (min-width: 1100px) {
+  [data-v3] .cm-side .rgn-panel { grid-template-rows: auto auto 1fr; }
+  [data-v3] .cm-side .rgn-panel > .cta { align-self: end; }
+}
+/* 배경은 완전한 흰색 */
+:root[data-v3][data-v3] { --bg: #ffffff; --surface: #ffffff; --surface-2: #ffffff; }
+[data-v3], [data-v3] body, [data-v3] main, [data-v3] #app, [data-v3] .topbar, [data-v3] .cm2, [data-v3] .cm-body { background: #ffffff; }
+[data-v3] .rgn-panel .chip:hover { background: #f2f2f2; }
+/* 회색 번짐 제거: 카드·패널·지도·메뉴의 그림자를 없애고 1px 테두리로만 구분 */
+:root[data-v3][data-v3] { --shadow: none; }
+[data-v3] .brand, [data-v3] .topbar nav, [data-v3] .team-block .staff-card, [data-v3] .cstate,
+[data-v3] .rgn.on, [data-v3] .cm-map #regionMap, [data-v3] .cm-side, [data-v3] .rgn-chip { box-shadow: none; }
+/* 머리글 문구: 두 줄 제목 + 칩이 섞인 한 줄 설명 */
+[data-v3] .page-head h1 { font-size: clamp(28px, 2.9vw, 38px); line-height: 1.2; margin: 0 0 8px; }
+[data-v3] .page-head .hero-sub { font-size: 14px; color: var(--text); }
+[data-v3] .hero-sub .hk { display: inline-block; font-family: var(--mono), "IBM Plex Sans KR", sans-serif; font-size: 12.5px; border: 1px solid var(--text); border-radius: 7px; padding: 1px 8px; margin: 0 3px; }
+@media (min-width: 901px) {
+  [data-v3] .cm-map #regionMap, [data-v3] .cm-side { height: calc(100vh - 556px); }
+}
+
+/* ---------- 대시보드: 제목 줄(보고서 선택은 제목 오른쪽) ---------- */
+[data-v3] .dash-head { margin: 22px 0 14px; align-items: flex-end; }
+[data-v3] .dash-head h1 { margin: 0; font-size: clamp(26px, 2.6vw, 36px); }
+[data-v3] .dash-pick { font-size: 13px; font-weight: 500; color: var(--muted); }
+[data-v3] .dash-pick select { border: 1px solid var(--text); border-radius: 8px; background: #fff; padding: 7px 12px; font-size: 14px; font-weight: 400; }
+/* 대시보드: 한 화면에 고정(제목 줄도 작게), 스크롤은 안쪽 카드 목록만 */
+[data-v3] .dash-head { margin: 10px 0 6px; }
+[data-v3] .dash-head h1 { font-size: clamp(22px, 2vw, 28px); }
+
+[data-v3] .equip-open { color: var(--text); font-weight: 500; font-size: 13px; }
+
+/* 사무실: 어두운 무대 상자는 내용 폭만큼만(양옆 빈 공간을 없앤다) */
+[data-v3] .stage { width: fit-content; max-width: 100%; }
+[data-v3] .stage { margin-left: auto; margin-right: auto; }
+[data-v3] .page-head.head-row { justify-content: center; text-align: center; }
+[data-v3] .page-head.head-row > div { text-align: center; }
+
+/* ---------- 사무실: 어두운 무대·체크무늬를 걷어내고 흰 바탕에 1px 테두리 ---------- */
+[data-v3] .stage { background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 18px; }
+[data-v3] .room, [data-v3] .equip-room { background: #fff; border: 1px solid var(--line-2); border-radius: 16px; color: var(--text); }
+[data-v3] .room-title .dname, [data-v3] .equip-room .room-title .dname { background: var(--text); color: #fff; border-radius: 6px; font-weight: 500; }
+[data-v3] .room-title .dcount, [data-v3] .equip-room .room-title .dcount { color: var(--muted); font-weight: 500; font-size: 12px; }
+[data-v3] .seat-no { color: var(--faint); font-family: var(--mono); }
+[data-v3] .stage-arrow { color: var(--faint); }
+[data-v3] .stage-arrow span { color: var(--muted); }
+[data-v3] .seat .seat-desk { background: #e6e6e6; box-shadow: inset 0 -6px 0 #cfcfcf; }
+[data-v3] .seat .monitor { background: #fff; border: 2px solid #111; }
+[data-v3] .seat .monitor::before { background: var(--lime); }
+[data-v3] .seat .monitor::after { background: #111; }
+[data-v3] .seat .plate, [data-v3] .equip .plate { border: 1px solid var(--text); border-radius: 7px; }
+[data-v3] .equip:hover, [data-v3] .equip:focus-visible { background: #f2f2f2; outline: 1px solid var(--text); }
+[data-v3] .equip-users span { background: #fff; border: 1px dashed var(--faint); color: var(--muted); border-radius: 6px; }
+[data-v3] .room-code-badge { background: #fff; border: 1px dashed var(--faint); color: var(--muted); }
+/* 컴퓨터 아래의 "○○부 · 찾아 씀" 점선 상자는 뺀다 */
+[data-v3] .equip-users { display: none; }
+
+/* ---------- 상담소 머리글: 푸른 군도 그림을 배경으로(글자는 흰 반투명 판 위에) ---------- */
+[data-v3] .page-head { background: url("bg_archipelago.jpg") center 58% / cover no-repeat; border-radius: 22px; padding: 26px 16px 22px; margin: 14px 0 14px; }
+[data-v3] .page-head > h1, [data-v3] .page-head > .hero-sub, [data-v3] .page-head > p { background: rgba(255, 255, 255, .9); display: table; margin-left: auto; margin-right: auto; border-radius: 12px; }
+[data-v3] .page-head > h1 { padding: 8px 22px; margin-bottom: 8px; }
+[data-v3] .page-head > .hero-sub, [data-v3] .page-head > p { padding: 6px 16px; }
+@media (min-width: 901px) {
+  [data-v3] .cm-map #regionMap, [data-v3] .cm-side { height: calc(100vh - 616px); }
+}
+
+/* ---------- 전체 배경: 푸른 군도 그림을 살짝 흐리고 옅게 깐다(카드·패널은 흰색 유지) ---------- */
+[data-v3] body, [data-v3] main, [data-v3] #app, [data-v3] .topbar, [data-v3] .cm2, [data-v3] .cm-body { background: transparent; }
+[data-v3] body::before { content: ""; position: fixed; inset: -24px; z-index: -1; pointer-events: none;
+  background: url("bg_archipelago.jpg") center / cover no-repeat; filter: blur(1px); opacity: .75; }
+/* 머리글은 배너 없이 글자만(배경이 이미 그림이라 흰 판 불필요) */
+[data-v3] .page-head { background: none; border-radius: 0; padding: 0; margin: 18px 0 14px; }
+[data-v3] .page-head > h1, [data-v3] .page-head > .hero-sub, [data-v3] .page-head > p { background: none; display: block; padding: 0; margin-left: 0; margin-right: 0; }
+[data-v3] .page-head > h1 { margin-bottom: 4px; }
+@media (min-width: 901px) {
+  [data-v3] .cm-map #regionMap, [data-v3] .cm-side { height: calc(100vh - 556px); }
+}
+/* 배경 위에서도 읽히도록 글자만 있는 영역에 흰 반투명 바탕 */
+[data-v3] .crumbs, [data-v3] .rgn-row, [data-v3] .dash-head { background: rgba(255, 255, 255, .72); border-radius: 12px; padding-left: 10px; padding-right: 10px; }
+
+/* 사무실 "최근 실행" 뒤에도 흰 반투명 판(배경 그림 위에서 읽히도록) */
+[data-v3] .flow-section { background: rgba(255, 255, 255, .82); border-radius: 18px; padding: 14px 18px 16px; margin-top: 18px; }
+[data-v3] .flow-section h3 { margin-top: 0; }
+
+/* ---------- 사무실 2차: 상태 배지·중복 글자 정리·흐름 연결 ---------- */
+/* '1/1석'·좌석 번호는 뜻이 불분명해서 뺀다. 직원 이름 밑의 같은 글자(부제)도 뺀다 */
+[data-v3] .room:not(.equip-room) .room-title .dcount, [data-v3] .seat-no, [data-v3] .seat .seat-role { display: none; }
+/* 직원 상태 배지: 대기 / 작업 중 / 완료 / 실패 */
+[data-v3] .seat::after { content: "대기"; position: absolute; top: 4px; right: 2px; z-index: 5; font-size: 11px; line-height: 1.5; padding: 0 8px; border: 1px solid var(--text); border-radius: 999px; background: #fff; color: var(--text); }
+[data-v3] .seat[data-run="running"]::after { content: "작업 중"; background: var(--lime); box-shadow: 0 0 10px var(--lime); }
+[data-v3] .seat[data-run="ok"]::after { content: "완료"; background: var(--text); color: #fff; }
+[data-v3] .seat[data-run="failed"]::after, [data-v3] .seat[data-run="error"]::after { content: "실패"; background: var(--danger); border-color: var(--danger); color: #fff; }
+[data-v3] .seat[data-run="skipped"]::after { content: "건너뜀"; color: var(--muted); border-style: dashed; }
+/* 컴퓨터 상태 배지: 준비됨(초록) / 받는 중(주황) / 비어 있음(빨강) / 실패(진한 빨강) */
+[data-v3] .equip .seat-role .cnt { display: none; }
+[data-v3] .equip .st { display: inline-block; border: 1px solid var(--text); border-radius: 999px; padding: 0 9px; font-size: 12px; font-weight: 500; color: var(--text); background: #fff; }
+[data-v3] .equip .st-ready { background: var(--lime); }
+[data-v3] .equip .st-busy { background: #ffd27a; }
+[data-v3] .equip .st-empty { background: #ffb3ad; border-color: var(--danger); }
+[data-v3] .equip .st-failed { background: var(--danger); border-color: var(--danger); color: #fff; }
+/* 설비실 → 화제 탐지부 연결 안내 */
+[data-v3] .stage .equip-room { margin-top: 28px; position: relative; }
+[data-v3] .stage .equip-room::before { content: "↑ 수집된 기사가 화제 탐지부로 들어갑니다"; position: absolute; top: -24px; left: 58px; font-size: 13px; color: var(--muted); }
+/* 흐름의 끝: 결과물 */
+[data-v3] .stage-result { flex: none; align-self: center; display: grid; gap: 4px; padding: 16px 18px; min-width: 130px; border: 1px solid var(--text); border-radius: 16px; background: #fff; color: var(--text); text-decoration: none; text-align: center; }
+[data-v3] .stage-result b { font-weight: 500; font-size: 15px; }
+[data-v3] .stage-result span { font-size: 12.5px; background: var(--lime); border-radius: 8px; padding: 3px 8px; }
+[data-v3] .stage-result:hover { box-shadow: 0 0 14px var(--lime); }
+
+/* 열람실 머리: 제목 + 부제 + (보고서 선택 · 인쇄/PDF 저장) */
+[data-v3] .dash-head { align-items: flex-end; }
+[data-v3] .dash-head .dash-sub { margin: 2px 0 0; font-size: 14px; color: var(--muted); }
+[data-v3] .dash-tools { display: inline-flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+[data-v3] #dashPrint { min-height: 38px; padding: 0 16px; font-size: 14px; white-space: nowrap; }
+/* 메뉴 순서: 상담소 → 사무실 → 열람실 */
+[data-v3] .topbar nav a[data-nav="agents"] { order: 1; }
+[data-v3] .topbar nav a[data-nav="offices"] { order: 2; }
+[data-v3] .topbar nav a[data-nav="dashboard"] { order: 3; }
+
+/* 사무실: "최근 실행"은 남은 높이만 쓰고 안에서 스크롤한다(페이지가 위아래로 움직이지 않게) */
+@media (min-width: 901px) {
+  [data-v3] .flow-section:has(#officeHistory) { height: calc(100vh - 801px); min-height: 150px; overflow-y: auto; margin-top: 12px; padding-top: 10px; }
+  [data-v3] .flow-section:has(#officeHistory) h3 { position: sticky; top: -10px; background: rgba(255, 255, 255, .95); margin: 0 0 4px; padding: 4px 0; z-index: 2; }
+  [data-v3] .flow-section:has(#officeHistory) table thead th { position: sticky; top: 28px; background: rgba(255, 255, 255, .95); z-index: 1; }
+}
+@media (min-width: 901px) {
+  /* 사무실을 더 납작하게: 머리·무대 여백과 컴퓨터 그림을 줄여서 "최근 실행"에 높이를 더 준다 */
+  [data-v3] .page-head.head-row { margin: 6px 0 8px; }
+  [data-v3] .page-head.head-row h1 { font-size: 30px; }
+  [data-v3] .stage { padding: 12px 14px; }
+  [data-v3] .stage .equip-room { margin-top: 22px; }
+  [data-v3] .equip svg { width: 52px; height: auto; }
+  [data-v3] .equip-open { margin-top: 2px; }
+  [data-v3] .flow-section:has(#officeHistory) { height: calc(100vh - 791px); }
+}
+
+/* ---------- 의뢰 접수 애니메이션(의뢰하기를 누르면 가운데에 뜨고, 끝나면 사무실로 이동) ---------- */
+.send-ov { position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center; background: rgba(255, 255, 255, .55); backdrop-filter: blur(6px); opacity: 0; transition: opacity .25s; }
+.send-ov.on { opacity: 1; }
+.send-card { width: min(520px, calc(100vw - 32px)); padding: 28px 30px 24px; text-align: center; background: #fff; border: 1px solid #111; border-radius: 22px; box-shadow: 0 0 40px rgba(184, 243, 107, .7); }
+.send-staff { display: flex; align-items: flex-end; justify-content: center; gap: 6px; margin-bottom: 14px; }
+.send-av { display: inline-block; width: 56px; height: 56px; animation: send-hop 1s ease-in-out infinite; }
+.send-arrow { font-style: normal; color: #777; align-self: center; font-size: 18px; }
+.send-t { margin: 0 0 4px; font-size: 22px; font-weight: 500; letter-spacing: -.02em; }
+.send-s { margin: 0 0 16px; color: #555; font-size: 14px; }
+.send-n { margin: 12px 0 0; color: #555; font-size: 13px; }
+.send-bar { height: 10px; border: 1px solid #111; border-radius: 6px; overflow: hidden; background: #fff; }
+.send-bar i { display: block; height: 100%; width: 0; background: #b8f36b; animation: send-fill 2.4s ease-out forwards; }
+.send-ov.done .send-bar i { width: 100%; animation: none; }
+.send-ov.done .send-av { animation-play-state: paused; }
+@keyframes send-hop { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+@keyframes send-fill { 0% { width: 0; } 70% { width: 82%; } 100% { width: 92%; } }
+@media (prefers-reduced-motion: reduce) { .send-av, .send-bar i { animation: none; } .send-bar i { width: 60%; } }
+
+/* 컴퓨터 화면: 표는 상자 안에서만 스크롤(페이지는 위아래로 움직이지 않게) */
+@media (min-width: 901px) {
+  [data-v3] #pcBody .tablewrap { max-height: calc(100vh - 616px); min-height: 160px; overflow: auto; }
+  [data-v3] #pcBody .tablewrap thead th { position: sticky; top: 0; background: rgba(255, 255, 255, .97); z-index: 2; }
+  [data-v3] #pcBody.flow-section { margin-top: 8px; padding-top: 10px; padding-bottom: 12px; }
+}
+
+/* 컴퓨터 화면의 나머지 탭(설치된 도구·작업 기록·파일·설정): 탭 내용 상자 안에서만 스크롤 */
+@media (min-width: 901px) {
+  [data-v3] #pcBody:not([data-tab="docs"]) { height: calc(100vh - 378px); min-height: 220px; overflow-y: auto; }
+  [data-v3] #pcBody:not([data-tab="docs"]) .tablewrap { max-height: none; overflow: visible; }
+  [data-v3] #pcBody:not([data-tab="docs"]) .tablewrap thead th { position: static; }
+}
+
+/* ---------- 실시간 말풍선·특수효과(일할 때만 보인다) ---------- */
+.live-say { position: relative; z-index: 6; margin: 0 0 10px; padding: 7px 12px; max-width: 230px; border: 1px solid var(--text); border-radius: 14px; background: #fff; text-align: left; line-height: 1.35; animation: say-pop .28s ease-out both; }
+.live-say b { display: block; font-size: 13px; font-weight: 500; }
+.live-say small { display: block; margin-top: 2px; font-size: 12px; color: var(--muted); }
+.live-say::after { content: ""; position: absolute; left: 30px; bottom: -7px; width: 11px; height: 11px; background: #fff; border-right: 1px solid var(--text); border-bottom: 1px solid var(--text); transform: rotate(45deg); }
+.live-say.work { background: #fff; box-shadow: 0 0 16px rgba(184, 243, 107, .9); }
+.live-say.done { background: var(--lime); }
+.live-say.done::after { background: var(--lime); }
+.live-say.fail { background: #ffb3ad; border-color: var(--danger); }
+.live-say.fail::after { background: #ffb3ad; border-color: var(--danger); }
+.live-say.wait { color: var(--muted); border-style: dashed; box-shadow: none; }
+.live-say .dots { display: inline-flex; gap: 3px; margin-left: 6px; vertical-align: 2px; }
+.live-say .dots i { width: 5px; height: 5px; border-radius: 50%; background: var(--text); animation: say-dot 1.1s infinite ease-in-out; }
+.live-say .dots i:nth-child(2) { animation-delay: .18s; }
+.live-say .dots i:nth-child(3) { animation-delay: .36s; }
+.live-say .sp { position: absolute; top: -6px; width: 7px; height: 7px; border-radius: 2px; background: var(--lime); border: 1px solid var(--text); opacity: 0; animation: say-spark 1.8s infinite ease-out; }
+.live-say .sp:nth-of-type(1) { right: 16px; }
+.live-say .sp:nth-of-type(2) { right: 34px; animation-delay: .6s; }
+.live-say .sp:nth-of-type(3) { right: 52px; animation-delay: 1.2s; }
+/* 일하는 방: 방 안 직원은 위아래로 가볍게 움직이고 모니터가 깜빡이며 빛난다 */
+.stage.live .room:not(.equip-room) .live-say { min-height: 46px; }
+.room.working { border-color: var(--text); box-shadow: 0 0 22px rgba(184, 243, 107, .85); }
+.room.working .person { animation: say-bob .9s ease-in-out infinite; }
+.room.working .monitor::before { animation: say-blink 1s steps(2) infinite; }
+/* 컴퓨터: 말풍선 자리를 위에 만들고, 일하는 컴퓨터는 빛이 난다 */
+.stage.live .equip-room .equip-list { padding-top: 62px; }
+.equip { position: relative; }
+.equip > .live-say { position: absolute; bottom: calc(100% - 4px); left: 50%; transform: translateX(-50%); width: max-content; margin: 0; }
+.equip.busy svg { animation: say-pc 1s ease-in-out infinite; }
+.stage.live .equip-room { overflow: visible; }
+/* "↑ 수집된 기사가…" 안내 글은 움직이지 않는다 */
+.stage.live .equip-room::before { animation: none; }
+/* 화살표: 신호가 흐르고 지나간 화살표는 검정으로 남는다 */
+.stage-arrow.passed { color: var(--text); }
+.stage-arrow.go { position: relative; color: var(--text); animation: say-flow 1s ease-in-out infinite; }
+.stage-arrow.go::after { content: ""; position: absolute; top: 14px; left: -4px; width: 9px; height: 9px; border-radius: 50%; background: var(--lime); border: 1px solid var(--text); animation: say-packet 1.1s linear infinite; }
+.stage-result.ready { animation: say-ready 1.4s ease-in-out infinite; }
+@keyframes say-pop { from { opacity: 0; transform: translateY(6px) scale(.94); } to { opacity: 1; transform: none; } }
+.equip > .live-say { animation-name: say-pop-c; }
+@keyframes say-pop-c { from { opacity: 0; transform: translateX(-50%) translateY(6px) scale(.94); } to { opacity: 1; transform: translateX(-50%); } }
+@keyframes say-dot { 0%, 80%, 100% { transform: translateY(0); opacity: .35; } 40% { transform: translateY(-4px); opacity: 1; } }
+@keyframes say-spark { 0% { opacity: 0; transform: translateY(8px) scale(.5); } 20% { opacity: 1; } 100% { opacity: 0; transform: translateY(-16px) scale(1.1) rotate(45deg); } }
+@keyframes say-bob { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(-3px); } }
+@keyframes say-blink { 0%, 100% { opacity: 1; } 50% { opacity: .45; } }
+@keyframes say-pc { 0%, 100% { filter: drop-shadow(0 0 0 rgba(184, 243, 107, 0)); } 50% { filter: drop-shadow(0 0 8px #b8f36b); } }
+@keyframes say-nudge { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+@keyframes say-flow { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(4px); } }
+@keyframes say-packet { 0% { transform: translateX(0); opacity: 0; } 15% { opacity: 1; } 85% { opacity: 1; } 100% { transform: translateX(30px); opacity: 0; } }
+@keyframes say-ready { 0%, 100% { box-shadow: 0 0 0 rgba(184, 243, 107, 0); } 50% { box-shadow: 0 0 22px #b8f36b; } }
+@media (prefers-reduced-motion: reduce) { .live-say, .live-say .dots i, .live-say .sp, .room.working .person, .room.working .monitor::before, .equip.busy svg, .stage-arrow.go, .stage-arrow.go::after, .stage-result.ready }
+/* 말풍선이 생겨도 방 폭이 흔들리지 않게: 직원 방 폭을 고정하고 말풍선은 방 폭에 맞춘다 */
+[data-v3] .room:not(.equip-room) { width: 172px; }
+[data-v3] .room:not(.equip-room) .room-desks { justify-content: center; }
+.room:not(.equip-room) > .live-say { max-width: none; width: 100%; box-sizing: border-box; }
+.stage.live .room:not(.equip-room) .live-say { min-height: 76px; }
+.room:not(.equip-room) > .live-say::after { left: 50%; margin-left: -6px; }
+.room:not(.equip-room) > .live-say { display: flex; flex-direction: column; justify-content: center; }
+
+/* 사무실: 진행 알림·무대·최근 실행의 폭을 모두 같게(무대는 넓게 펴고 안의 내용은 가운데 정렬) */
+[data-v3] .stage { width: 100%; max-width: none; box-sizing: border-box; }
+[data-v3] .stage-staff { justify-content: center; }
+[data-v3] .stage .equip-list { justify-content: center; }
+
+/* ---------- 일하는 컴퓨터는 흔들린다(받는 중·색인 중이거나 일하는 중) ---------- */
+[data-v3] .equip:has(.st-busy) svg, [data-v3] .equip.busy svg { transform-origin: 50% 90%; animation: pc-shake .42s ease-in-out infinite, say-pc 1s ease-in-out infinite; }
+@keyframes pc-shake {
+  0%, 100% { transform: translate(0, 0) rotate(0); }
+  15% { transform: translate(-3px, 0) rotate(-3deg); }
+  30% { transform: translate(3px, -1px) rotate(3deg); }
+  45% { transform: translate(-3px, 1px) rotate(-2.5deg); }
+  60% { transform: translate(3px, 0) rotate(2.5deg); }
+  75% { transform: translate(-2px, -1px) rotate(-1.5deg); }
+  90% { transform: translate(2px, 0) rotate(1.5deg); }
+}
+[data-v3] .equip:has(.st-busy)::before, [data-v3] .equip.busy::before { content: "···"; position: absolute; top: 2px; right: 22px; font-size: 18px; line-height: 1; letter-spacing: 1px; animation: pc-puff 1s ease-out infinite; }
+@keyframes pc-puff { 0% { opacity: 0; transform: translateY(6px); } 40% { opacity: 1; } 100% { opacity: 0; transform: translateY(-10px); } }
+@media (prefers-reduced-motion: reduce) { [data-v3] .equip:has(.st-busy) svg, [data-v3] .equip.busy svg, [data-v3] .equip:has(.st-busy)::before, [data-v3] .equip.busy::before { animation: none !important; } }
+
+/* ---------- 사무실 느낌의 무대: 위는 창문 있는 벽, 아래는 나무 바닥, 설비실은 타일 바닥 ---------- */
+[data-v3] .stage { position: relative; isolation: isolate; padding: 74px 18px 18px; border: 1px solid var(--line-2); border-radius: 18px; overflow: hidden;
+  background:
+    repeating-linear-gradient(90deg, rgba(120, 82, 40, .10) 0 1px, transparent 1px 148px),
+    repeating-linear-gradient(0deg, rgba(120, 82, 40, .13) 0 2px, transparent 2px 34px),
+    #ecd9b6; }
+/* 벽: 연한 회색 벽 + 창문 + 걸레받이 */
+[data-v3] .stage::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 58px; z-index: -1; pointer-events: none;
+  background:
+    linear-gradient(#b9a07a, #b9a07a) left bottom / 100% 5px no-repeat,
+    repeating-linear-gradient(90deg, transparent 0 34px, #fff 34px 40px, #cfe7f8 40px 128px, #fff 128px 134px, transparent 134px 210px) 0 8px / 100% 44px no-repeat,
+    linear-gradient(#f1f2f0, #f1f2f0); }
+/* 벽시계 */
+[data-v3] .stage::after { content: ""; position: absolute; right: 26px; top: 9px; width: 34px; height: 34px; border-radius: 50%; z-index: -1; pointer-events: none;
+  border: 2px solid #111; background:
+    linear-gradient(#111, #111) 50% 50% / 2px 11px no-repeat,
+    linear-gradient(#111, #111) 50% 50% / 9px 2px no-repeat,
+    #fff; }
+/* 직원 방은 책상 구역(러그)처럼, 설비실은 회색 타일 바닥 */
+[data-v3] .room:not(.equip-room) { background: rgba(255, 255, 255, .93); }
+[data-v3] .stage .equip-room { background:
+    repeating-linear-gradient(90deg, rgba(0, 0, 0, .06) 0 1px, transparent 1px 44px),
+    repeating-linear-gradient(0deg, rgba(0, 0, 0, .06) 0 1px, transparent 1px 44px),
+    #e6ebf0; border-color: #b9c3cd; }
+[data-v3] .stage .equip-room::before { background: #fff; padding: 1px 8px; border-radius: 8px; }
+@media (min-width: 901px) { [data-v3] .flow-section:has(#officeHistory) { height: calc(100vh - 856px); } }
+/* 컴퓨터 말풍선 자리는 말풍선이 있을 때만 만든다(평소엔 납작하게) */
+.stage.live .equip-room .equip-list { padding-top: 0; }
+.stage.live .equip-room .equip-list:has(.live-say) { padding-top: 62px; }
+[data-v3] .stage { padding-bottom: 14px; }
+.stage.live .room:not(.equip-room) .live-say { min-height: 64px; }
+
+/* ---------- 파티션: 직원 자리는 칸막이(왼쪽·오른쪽·뒤쪽), 설비실은 컴퓨터 사이 낮은 칸막이 ---------- */
+[data-v3] .room:not(.equip-room) { border: 1px solid #c9d3dc; border-left: 8px solid #a9bccb; border-right: 8px solid #a9bccb; border-top: 8px solid #8fa5b7; border-radius: 10px 10px 4px 4px;
+  box-shadow: 0 6px 0 -2px rgba(90, 110, 130, .22); }
+[data-v3] .room.working { border-color: #8fa5b7; border-top-color: var(--text); box-shadow: 0 0 22px rgba(184, 243, 107, .85), 0 6px 0 -2px rgba(90, 110, 130, .22); }
+[data-v3] .stage .equip-room { border: 1px solid #b9c3cd; border-top: 8px solid #8fa5b7; border-radius: 10px 10px 4px 4px; }
+[data-v3] .stage .equip { border-radius: 0; }
+[data-v3] .stage .equip + .equip { border-left: 7px solid #b7c4d0; padding-left: 12px; margin-left: 4px; }
+/* 벽쪽 책상 뒤 낮은 파티션 줄(직원 방과 설비실 사이) */
+[data-v3] .stage .equip-room::after { content: ""; position: absolute; left: 14px; right: 14px; top: -14px; height: 0; border-top: 0; }
+
+/* ---------- 사무실: 한 화면에 꽉 차게(페이지 스크롤 없음). 남는 높이는 "최근 실행"이 쓰고 안에서 스크롤한다 ---------- */
+@media (min-width: 901px) {
+  [data-v3] #app:has(#officeHistory) { display: flex; flex-direction: column; height: calc(100vh - 130px); overflow: hidden; padding-bottom: 8px; box-sizing: border-box; }
+  [data-v3] #app:has(#officeHistory) > * { flex: none; }
+  [data-v3] #app:has(#officeHistory) > .flow-section:has(#officeHistory) { flex: 1 1 0; min-height: 84px; height: auto; margin-top: 8px; overflow-y: auto; }
+  [data-v3] #app:has(#officeHistory) .page-head.head-row { margin: 0 0 6px; }
+  [data-v3] #app:has(#officeHistory) .page-head.head-row h1 { font-size: 24px; margin: 0; }
+  [data-v3] #app:has(#officeHistory) .page-head.head-row p { margin: 0; font-size: 13px; }
+  [data-v3] #app:has(#officeHistory) #oCount { display: none; }
+  [data-v3] #app:has(#officeHistory) .run-form { margin: 0 0 6px; }
+  [data-v3] #app:has(#officeHistory) .submit-bar { padding: 4px 10px; }
+  /* 무대는 높이에 맞춰 줄인다 */
+  [data-v3] #seatBody { zoom: .92; }
+  [data-v3] .stage { padding-top: 54px; }
+  [data-v3] .stage::before { height: 42px; }
+  [data-v3] .stage::before { background-position: left bottom, 0 5px, 0 0; background-size: 100% 5px, 100% 30px, auto; }
+  [data-v3] .stage::after { top: 5px; width: 28px; height: 28px; }
+  [data-v3] .stage .equip-room { margin-top: 20px; }
+  [data-v3] .stage .equip-room::before { top: -20px; }
+}
+@media (min-width: 901px) and (max-height: 900px) { [data-v3] #seatBody { zoom: .8; } }
+@media (min-width: 901px) and (max-height: 800px) { [data-v3] #seatBody { zoom: .7; } }
+
+/* 진행 알림 줄은 없애고 "작업 정지" 버튼만 사무실 오른쪽 위에 둔다 */
+@media (min-width: 901px) {
+  [data-v3] #app:has(#officeHistory) { position: relative; }
+  [data-v3] #app:has(#officeHistory) #officeRun { position: absolute; top: 4px; right: 6px; margin: 0; padding: 0; background: none; border: 0; box-shadow: none; z-index: 20; }
+  [data-v3] #app:has(#officeHistory) #officeRun .submit-bar { background: none; border: 0; box-shadow: none; padding: 0; margin: 0; }
+  [data-v3] #app:has(#officeHistory) #officeRun .submit-bar > .muted, [data-v3] #app:has(#officeHistory) #officeRun .submit-bar > .pill { display: none; }
+  [data-v3] #app:has(#officeHistory) #officeRun .flow-note { display: none; }
+  [data-v3] #app:has(#officeHistory) #officeRun #stopBtn { background: #fff; min-height: 38px; padding: 0 16px; }
+}
+
+/* 파티션 안은 바닥이 그대로 보이게(흰 바탕 제거) */
+[data-v3] .room:not(.equip-room) { background: transparent; }
+
+/* ---------- 화분 ---------- */
+.stage > .plant { position: absolute; z-index: 0; pointer-events: none; height: auto; filter: drop-shadow(0 3px 0 rgba(90, 60, 30, .18)); }
+.plant.pl1 { width: 46px; left: 14px; top: 96px; }
+.plant.pl2 { width: 52px; right: 12px; top: 250px; }
+.plant.pl3 { width: 34px; left: 64px; top: 26px; }
+.plant.pl4 { width: 30px; right: 78px; top: 28px; }
+.stage .room, .stage .equip-room, .stage-staff { position: relative; z-index: 1; }
+
+/* 설비실도 바닥이 그대로 보이게(색·타일 바탕 제거) */
+[data-v3] .stage .equip-room { background: transparent; }
+
+/* 버그 수정: 지역을 고르지 않았거나 의뢰 중일 때 숨겨진 조건 칸이 자리를 차지해 지도를 아래로 밀던 문제 */
+[data-v3] .cm-side[hidden] { display: none !important; }
+
+/* 사무실 컴퓨터 그림을 더 크게 */
+@media (min-width: 901px) { [data-v3] .equip svg { width: 84px; height: auto; } }
+[data-v3] .stage .equip { width: 170px; }
+
+/* 의뢰 중: 왼쪽 조건 칸은 그대로 두고 눌러지지 않게만 한다 */
+[data-v3] .rgn-panel .chip:disabled, [data-v3] .rgn-panel .seg button:disabled, [data-v3] .rgn-panel select:disabled { opacity: .55; cursor: not-allowed; }
+[data-v3] .rgn-panel .chip.on:disabled, [data-v3] .rgn-panel .seg button.on:disabled { opacity: .85; }
+[data-v3] .cta:disabled { background: #e9efe0; color: #555; box-shadow: none; }
+
+/* 의뢰 중 진행 알림 상자는 뺀다(작업 정지는 사무실 오른쪽 위, 끝나면 나오는 "보고서 확인하기" 알림은 그대로) */
+[data-v3] #commissionState .cstate.running { display: none; }
+
+/* 의뢰 중에는 안내 문장 한 줄이 더 생기므로 그만큼 지도·조건 칸 높이를 줄여 처음처럼 스크롤이 없게 한다 */
+@media (min-width: 901px) {
+  [data-v3] .cm2:has(.cm-hint) .cm-map #regionMap, [data-v3] .cm2:has(.cm-hint) .cm-side { height: calc(100vh - 616px); }
+}
+
+/* 의뢰 중: 조건 칸 가운데에 크게 "의뢰 중" */
+.run-big { order: 4; grid-column: 1 / -1; align-self: center; justify-self: center; display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; padding: 8px 12px; }
+.run-big .rb-t { font-size: 48px; font-weight: 400; letter-spacing: -.03em; line-height: 1.15; display: inline-flex; align-items: baseline; gap: 10px; }
+.run-big .rb-t::before { content: ""; width: 14px; height: 14px; border-radius: 50%; background: #b8f36b; border: 1px solid #111; box-shadow: 0 0 16px #b8f36b; align-self: center; animation: rb-pulse 1.2s ease-in-out infinite; }
+.run-big .rb-dots { display: inline-flex; gap: 6px; }
+.run-big .rb-dots i { width: 9px; height: 9px; border-radius: 50%; background: #111; animation: say-dot 1.1s infinite ease-in-out; }
+.run-big .rb-dots i:nth-child(2) { animation-delay: .18s; }
+.run-big .rb-dots i:nth-child(3) { animation-delay: .36s; }
+.run-big .rb-s { font-size: 16px; font-weight: 500; }
+.run-big .rb-st { font-size: 14px; color: #555; min-height: 20px; }
+@keyframes rb-pulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.35); opacity: .6; } }
+@media (prefers-reduced-motion: reduce) { .run-big .rb-t::before, .run-big .rb-dots i { animation: none; } }
+
+/* 끝난 의뢰 알림은 아래 줄 대신 "의뢰하기" 버튼 자리(조건 칸 아래)에 보인다 */
+[data-v3] #commissionState .cstate { display: none; }
+.done-box { order: 4; grid-column: 1 / -1; align-self: center; justify-self: stretch; display: grid; gap: 12px; padding: 18px 20px; text-align: center; border: 1px solid #111; border-radius: 16px; background: #fff; box-shadow: 0 0 22px rgba(184, 243, 107, .8); }
+.done-box.stopped, .done-box.error, .done-box.check_failed { box-shadow: none; }
+.done-box .db-t { font-size: 24px; font-weight: 500; letter-spacing: -.02em; line-height: 1.3; }
+.done-box .db-b { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.done-box .cta-ok, .done-box .btn { min-height: 44px; padding: 0 22px; border-radius: 10px; font-size: 15px; display: inline-flex; align-items: center; text-decoration: none; }
+.done-box .cta-ok { background: #b8f36b; border: 1px solid #111; color: #111; font-weight: 500; box-shadow: 0 0 20px #b8f36b; animation: none; }
+/* 알림 상자를 납작하게: 조건 칸 안에서 스크롤 없이 의뢰하기 버튼까지 보이게 */
+.done-box { gap: 8px; padding: 10px 14px; }
+.done-box .db-t { font-size: 19px; }
+.done-box .cta-ok, .done-box .btn { min-height: 36px; padding: 0 18px; font-size: 14px; }
+@media (min-width: 901px) { [data-v3] .cm-side .rgn-panel { row-gap: 8px; } [data-v3] .rgn-v3head { padding-top: 10px; } [data-v3] .rgn-v3head p { margin-bottom: 4px; } }
+/* 직원 말풍선이 떠 있는 동안 늘어나는 위쪽 높이만큼 지도·조건 칸을 줄인다(스크롤 방지) */
+@media (min-width: 901px) {
+  [data-v3]:has(.staff-card .bubble:not([hidden])) .cm-map #regionMap, [data-v3]:has(.staff-card .bubble:not([hidden])) .cm-side { height: calc(100vh - 587px); }
+  [data-v3]:has(.staff-card .bubble:not([hidden])) .cm2:has(.cm-hint) .cm-map #regionMap, [data-v3]:has(.staff-card .bubble:not([hidden])) .cm2:has(.cm-hint) .cm-side { height: calc(100vh - 647px); }
+}
+
+/* 조건 칸 맨 위의 "선택한 지역 · 지역명 · 최근 리포트" 머리는 뺀다 */
+[data-v3] .rgn-v3head { display: none; }
+
+/* 보고서가 나온 뒤 "보고서 확인하기"를 누르기 전에는 조건 버튼들을 숨기고 알림만 크게 보여 준다 */
+[data-v3] .rgn-panel:has(.done-box) > :not(.done-box) { display: none; }
+[data-v3] .rgn-panel:has(.done-box) { grid-template-columns: 1fr; grid-template-rows: 1fr; align-content: center; }
+[data-v3] .rgn-panel:has(.done-box) > .done-box { align-self: center; padding: 28px 24px; gap: 18px; }
+[data-v3] .rgn-panel:has(.done-box) .done-box .db-t { font-size: 28px; }
+[data-v3] .rgn-panel:has(.done-box) .done-box .cta-ok, [data-v3] .rgn-panel:has(.done-box) .done-box .btn { min-height: 48px; padding: 0 26px; font-size: 16px; }
+/* 보고서 확인 전: 눌린 지역 칩은 그대로 보이되 눌러지지 않는다 */
+[data-v3] .rgn-chip.on.locked { opacity: 1; }
+[data-v3] .rgn-chip.locked:not(.on) { opacity: .45; }
+[data-v3] .crumbs:has(~ .rgn-row .rgn-chip.locked) .crumb { cursor: default; }
+
+/* ---------- 컴퓨터실 칸막이: 옆·아래 벽이 있고, 위쪽 벽에는 직원이 들어갈 출입구가 있다 ---------- */
+[data-v3] .stage .equip-room { border: 8px solid #a9bccb; border-top: 0; border-radius: 0 0 6px 6px; position: relative; }
+[data-v3] .stage .equip-room::after { content: ""; position: absolute; left: -8px; right: -8px; top: 0; height: 8px; z-index: 2; pointer-events: none;
+  background: linear-gradient(90deg, #8fa5b7 0, #8fa5b7 var(--door-l, 12%), transparent var(--door-l, 12%), transparent var(--door-r, 24%), #8fa5b7 var(--door-r, 24%), #8fa5b7 100%); }
+/* 출입구 문틀(양쪽 기둥)과 바닥 매트 */
+[data-v3] .stage .equip-room .room-title { z-index: 3; }
+[data-v3] .stage .equip-room::before { z-index: 3; }
+/* 안내 글은 출입구 바로 위에 둔다 */
+[data-v3] .stage .equip-room::before { left: calc(var(--door-l, 6%) + 6px); }
+
+/* "↑ 수집된 기사가 화제 탐지부로 들어갑니다" 안내 글은 뺀다 */
+[data-v3] .stage .equip-room::before { content: none !important; display: none; }
+
+/* 알림 상자는 테두리·그림자 없이(바깥 흰 판 테두리 하나만 남긴다) */
+[data-v3] .done-box { border: 0; box-shadow: none; background: transparent; }
+/* 화분이 컴퓨터실 칸막이와 겹치지 않게 오른쪽 위 빈 곳으로 옮긴다 */
+.plant.pl2 { top: 118px; right: 16px; width: 46px; }
+
+/* 벽시계: 십자가처럼 보이던 바늘을 시계 바늘 모양(10시 10분)과 눈금으로 다시 그린다 */
+[data-v3] .stage::after { border: 2px solid #111; background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'><circle cx='20' cy='20' r='19' fill='white'/><g stroke='%23111' stroke-width='1.6' stroke-linecap='round'><path d='M20 4v3M20 33v3M4 20h3M33 20h3'/></g><g stroke='%23111' stroke-linecap='round'><path d='M20 20 L12 14' stroke-width='2.6'/><path d='M20 20 L29 11' stroke-width='1.8'/></g><circle cx='20' cy='20' r='2' fill='%23111'/></svg>") center / cover no-repeat; }
+
+/* 직원 자리 칸막이는 뺀다(컴퓨터실 칸막이만 남긴다). 부서 이름표는 그대로 */
+[data-v3] .room:not(.equip-room), [data-v3] .room.working { border: 0; border-radius: 0; box-shadow: none; }
+[data-v3] .room.working { box-shadow: none; }
+[data-v3] .room.working .room-desks { filter: drop-shadow(0 0 10px rgba(184, 243, 107, .95)); }
+
+/* 직원(책상 포함)을 1.2배로 */
+[data-v3] .room:not(.equip-room) .room-desks { zoom: 1.2; }
+[data-v3] .room:not(.equip-room) { width: 196px; }
+
+/* 부서 이름표(화제 탐지부 등) 글자를 크게 */
+[data-v3] .room:not(.equip-room) { padding-top: 50px; }
+[data-v3] .room:not(.equip-room) .room-title { top: 8px; left: 0; right: 0; justify-content: center; }
+[data-v3] .room:not(.equip-room) .room-title .dname { font-size: 17px; font-weight: 500; padding: 5px 14px; border-radius: 8px; }
+
+/* ---------- 보고서 완성 축하 효과(사무실에서 일이 끝나면 뜨고 열람실로 이동) ---------- */
+.done-ov { position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center; background: rgba(255, 255, 255, .55); backdrop-filter: blur(6px); opacity: 0; transition: opacity .3s; }
+.done-ov.on { opacity: 1; }
+.done-card { position: relative; overflow: hidden; width: min(520px, calc(100vw - 32px)); padding: 30px 30px 24px; text-align: center; background: #fff; border: 1px solid #111; border-radius: 22px; box-shadow: 0 0 46px rgba(184, 243, 107, .85); animation: dc-pop .45s cubic-bezier(.2, 1.3, .4, 1) both; }
+.done-card h2 { margin: 14px 0 4px; font-size: 26px; font-weight: 500; letter-spacing: -.02em; }
+.done-card p { margin: 0 0 16px; color: #555; font-size: 14px; }
+.done-card small { display: block; margin-top: 12px; color: #555; font-size: 13px; }
+.dc-paper { position: relative; width: 74px; height: 92px; margin: 0 auto; border: 2px solid #111; border-radius: 8px; background: #fff; animation: dc-bounce 1s ease-in-out .3s 2; }
+.dc-paper i { position: absolute; left: 12px; right: 12px; height: 4px; border-radius: 2px; background: #cfcfcf; }
+.dc-paper i:nth-child(1) { top: 14px; } .dc-paper i:nth-child(2) { top: 26px; right: 24px; } .dc-paper i:nth-child(3) { top: 38px; }
+.dc-paper b { position: absolute; right: -14px; bottom: -12px; width: 38px; height: 38px; display: grid; place-items: center; border: 2px solid #111; border-radius: 50%; background: #b8f36b; font-size: 22px; font-weight: 700; animation: dc-stamp .4s ease-out .35s both; }
+.dc-bar { height: 10px; border: 1px solid #111; border-radius: 6px; overflow: hidden; }
+.dc-bar i { display: block; height: 100%; width: 0; background: #b8f36b; animation: send-fill 2.4s ease-out forwards; }
+.cf { position: absolute; top: -10px; left: var(--x); width: 9px; height: 14px; border-radius: 2px; background: #b8f36b; border: 1px solid #111; transform: rotate(var(--r)); animation: cf-fall 1.9s ease-in var(--d) infinite; opacity: 0; }
+@keyframes dc-pop { from { opacity: 0; transform: scale(.85) translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes dc-bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px) rotate(-3deg); } }
+@keyframes dc-stamp { from { opacity: 0; transform: scale(2.2) rotate(-25deg); } to { opacity: 1; transform: none; } }
+@keyframes cf-fall { 0% { opacity: 0; transform: translateY(0) rotate(var(--r)); } 10% { opacity: 1; } 100% { opacity: 0; transform: translateY(380px) rotate(calc(var(--r) + 240deg)); } }
+@media (prefers-reduced-motion: reduce) { .done-card, .dc-paper, .dc-paper b, .cf { animation: none !important; } .dc-bar i { width: 100%; animation: none; } }
+
+/* 의뢰 중에는 조건 버튼들을 모두 숨기고 "의뢰 중" 표시만 크게 보여 준다 */
+[data-v3] .rgn-panel:has(.run-big) > :not(.run-big) { display: none; }
+[data-v3] .rgn-panel:has(.run-big) { grid-template-columns: 1fr; grid-template-rows: 1fr; align-content: center; }
+[data-v3] .rgn-panel:has(.run-big) > .run-big { align-self: center; gap: 12px; }
+[data-v3] .rgn-panel:has(.run-big) .run-big .rb-t { font-size: 64px; }
+[data-v3] .rgn-panel:has(.run-big) .run-big .rb-s { font-size: 20px; }
+[data-v3] .rgn-panel:has(.run-big) .run-big .rb-st { font-size: 15px; }
+
+/* 지역 칩 줄의 "의뢰 중" 글자·스피너는 뺀다(버튼 비활성화만) */
+[data-v3] .rgn-chip .rgn-run { display: none; }
+[data-v3] .rgn-chip.running { background: #111; color: #fff; }
+
+/* 의뢰 중 표시 아래의 "사무실에서 일하는 모습 보러 가기" 버튼 */
+.run-big .rb-go { margin-top: 12px; display: inline-flex; align-items: center; min-height: 44px; padding: 0 22px; border: 1px solid #111; border-radius: 10px; background: #b8f36b; color: #111; font-size: 15px; font-weight: 500; text-decoration: none; box-shadow: 0 0 20px #b8f36b; }
+.run-big .rb-go:hover { box-shadow: 0 0 28px #b8f36b; }
+
+/* 맨 아래 회사 정보: 화면 아래에 고정된 얇은 바(높이 56px는 각 화면 높이 계산에서 미리 뺀다) */
+[data-v3] .site-foot { position: fixed; left: 0; right: 0; bottom: 0; z-index: 50; height: 56px; box-sizing: border-box; display: flex; flex-wrap: wrap; align-content: center; justify-content: center; gap: 2px 0; padding: 4px 16px; background: rgba(255, 255, 255, .88); border-top: 1px solid #e4e4e4; font-size: 12.5px; line-height: 1.5; color: #555; }
+[data-v3] .site-foot span { white-space: nowrap; padding: 0 12px; border-left: 1px solid #ddd; }
+[data-v3] .site-foot span:first-child { border-left: 0; }
+[data-v3] .site-foot b { color: #111; font-weight: 700; margin-right: 6px; }
+@media print { .site-foot { display: none; } }
+/* 상담소: 바닥 바와 겹치지 않도록 지도·조건 칸을 조금 더 줄인다 */
+@media (min-width: 901px) { [data-v3] .cm-map #regionMap, [data-v3] .cm-side { margin-bottom: 0; max-height: calc(100vh - 640px); } }
+
+/* ---------- 열람실 전시: 보고서를 영화 포스터처럼 ---------- */
+[data-v3] .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 270px)); gap: 18px; padding: 6px 4px 20px; }
+@media (min-width: 901px) { [data-v3] .gallery { max-height: calc(100vh - 236px); overflow-y: auto; padding-right: 8px; } }
+.poster { position: relative; display: flex; flex-direction: column; aspect-ratio: 2 / 3; overflow: hidden; border: 1px solid #111; border-radius: 16px; background: #fff; color: #111; text-decoration: none; transition: transform .18s, box-shadow .18s; }
+.poster:hover { transform: translateY(-6px) rotate(-.4deg); box-shadow: 0 16px 30px rgba(0, 0, 0, .22), 0 0 22px rgba(184, 243, 107, .8); }
+.po-art { position: relative; flex: 0 0 52%; background: url("bg_archipelago.jpg") var(--bgpos, 50% 50%) / 260% no-repeat; border-bottom: 1px solid #111; }
+.po-art em { position: absolute; left: 10px; top: 10px; font-style: normal; font-size: 12px; padding: 2px 9px; border-radius: 999px; background: rgba(255, 255, 255, .92); border: 1px solid #111; }
+.po-new { position: absolute; right: 10px; top: 10px; font-size: 12px; font-weight: 500; padding: 2px 9px; border-radius: 999px; background: #b8f36b; border: 1px solid #111; animation: po-glow 1.4s ease-in-out infinite; }
+.po-body { flex: 1; display: flex; flex-direction: column; gap: 5px; padding: 12px 14px 14px; min-height: 0; }
+.po-body strong { font-size: 28px; font-weight: 400; letter-spacing: -.03em; line-height: 1.1; }
+.po-body small { font-size: 13px; color: #555; }
+.po-bar { display: flex; height: 9px; border: 1px solid #111; border-radius: 5px; overflow: hidden; background: #eee; margin-top: 2px; }
+.po-bar i { display: block; height: 100%; }
+.po-meta { font-size: 12.5px; font-family: var(--mono); color: #333; }
+.po-head { font-size: 12.5px; line-height: 1.45; color: #555; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+.poster.fresh { box-shadow: 0 0 26px rgba(184, 243, 107, .95); }
+/* 준비 중 포스터 */
+.poster.preparing { border-style: dashed; background: rgba(255, 255, 255, .9); }
+.poster.preparing .po-art { background: repeating-linear-gradient(135deg, #f3f3f1 0 14px, #ebebe8 14px 28px); display: grid; place-items: center; }
+.po-spin { width: 54px; height: 54px; border-radius: 50%; border: 5px solid #ddd; border-top-color: #111; animation: po-rot 1s linear infinite; }
+.po-bar.run i { width: 40%; background: #b8f36b; animation: po-run 1.4s ease-in-out infinite; }
+.dash-back { display: inline-block; margin-bottom: 4px; font-size: 13px; color: #555; text-decoration: none; }
+.dash-back:hover { color: #111; text-decoration: underline; }
+@keyframes po-rot { to { transform: rotate(360deg); } }
+@keyframes po-run { 0% { transform: translateX(-100%); } 100% { transform: translateX(260%); } }
+@keyframes po-glow { 0%, 100% { box-shadow: 0 0 0 rgba(184, 243, 107, 0); } 50% { box-shadow: 0 0 14px #b8f36b; } }
+@media (prefers-reduced-motion: reduce) { .po-new, .po-spin, .po-bar.run i { animation: none; } .poster:hover { transform: none; } }
+
+/* 읽고 싶어지는 한 줄: 맨 위 큰 문구 + 포스터 안의 인용 문구 */
+.lead { display: grid; gap: 6px; margin: 4px 4px 14px; padding: 16px 22px; border: 1px solid #111; border-radius: 18px; background: rgba(255, 255, 255, .93); color: #111; text-decoration: none; transition: box-shadow .18s; }
+.lead:hover { box-shadow: 0 0 24px rgba(184, 243, 107, .9); }
+.lead-k { justify-self: start; font-size: 12px; font-family: var(--mono); padding: 2px 9px; border: 1px solid #111; border-radius: 8px; background: #b8f36b; }
+.lead-h { font-size: clamp(22px, 2.2vw, 32px); line-height: 1.35; font-weight: 400; letter-spacing: -.03em; }
+.lead-m { font-size: 13px; color: #555; }
+.po-head { order: 2; font-size: 14px; line-height: 1.55; color: #111; font-weight: 500; -webkit-line-clamp: 6; margin-top: 4px; }
+.po-bar { order: 3; margin-top: auto; }
+.po-meta { order: 4; display: flex; justify-content: space-between; align-items: baseline; }
+.po-read { font-weight: 500; color: #111; background: #b8f36b; padding: 0 7px; border-radius: 6px; font-family: "IBM Plex Sans KR", sans-serif; font-size: 12px; }
+.po-body strong { order: 0; } .po-body small { order: 1; }
+@media (min-width: 901px) { [data-v3] .gallery { max-height: calc(100vh - 336px); } }
+.poster { aspect-ratio: 2 / 3.1; }
+
+/* 후킹 문구를 포스터 맨 위로 올리고 크게 */
+.po-head { order: -1; font-size: 17px; line-height: 1.5; font-weight: 500; letter-spacing: -.02em; -webkit-line-clamp: 7; margin: 0 0 6px; }
+.po-body strong { font-size: 20px; font-weight: 500; }
+.po-body small { margin-bottom: 4px; }
+.lead-h { font-size: clamp(26px, 2.9vw, 42px); line-height: 1.3; }
+.lead { padding: 20px 26px; }
+@media (min-width: 901px) { [data-v3] .gallery { max-height: calc(100vh - 356px); } }
+/* 후킹 문구가 잘리지 않게 그림은 낮추고 글 칸을 키운다 */
+.poster { aspect-ratio: 2 / 3.5; }
+.po-art { flex: 0 0 36%; }
+@media (min-width: 901px) { [data-v3] .lead-m { display: none; } [data-v3] .gallery { max-height: calc(100vh - 336px); } }
+
+/* 포스터 그림은 지역 상징 그림(없으면 군도 그림) */
+.po-art { background: var(--img, url("bg_archipelago.jpg")) center / cover no-repeat; }
+.po-art { flex: 0 0 44%; }
+
+/* 좌측 상단 행사 표기 */
+[data-v3] .event-tag { display: block; position: fixed; left: 18px; top: 18px; z-index: 60; padding: 5px 13px; border: 1px solid #111; border-radius: 999px; background: rgba(255, 255, 255, .9); font-family: var(--mono); font-size: 12px; letter-spacing: .02em; color: #111; white-space: nowrap; pointer-events: none; }
+@media (max-width: 1200px) { [data-v3] .event-tag { font-size: 11px; left: 10px; top: 10px; } }
+@media print { .event-tag { display: none !important; } }
+
+/* 직원 대화 화면: "업무 실행" 버튼은 뺀다(보고서는 상담소에서 의뢰한다) */
+[data-v3] .chat-head #runBtn { display: none; }
+
+/* 직원 대화 화면: 한 화면에 맞춘다(바닥 회사 정보 바 높이만큼 뺀다). 대화가 길어지면 말풍선 영역 안에서만 스크롤 */
+@media (min-width: 901px) {
+  [data-v3] .chat { height: calc(100vh - 190px); min-height: 360px; background: rgba(255, 255, 255, .94); }
+}
+
+/* 직원 소개(읽기 전용): 입력칸 대신 글로 */
+[data-v3] .pf-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin: 6px 0 4px; }
+[data-v3] .pf-head h2 { margin: 0; font-size: 34px; font-weight: 400; letter-spacing: -.03em; }
+[data-v3] .pf-head span { color: #555; font-size: 16px; }
+[data-v3] .pf-tag { margin: 4px 0 14px; padding: 8px 14px; border-left: 3px solid #111; background: rgba(255, 255, 255, .6); font-size: 16px; }
+[data-v3] .pf-body { background: rgba(255, 255, 255, .86); border: 1px solid var(--line); border-radius: 16px; padding: 18px 22px 20px; line-height: 1.75; font-size: 15px; }
+[data-v3] .pf-body h3, [data-v3] .pf-body h4, [data-v3] .pf-body h5 { margin: 18px 0 6px; font-weight: 500; letter-spacing: -.02em; }
+[data-v3] .pf-body h3 { font-size: 22px; margin-top: 0; }
+[data-v3] .pf-body h4 { font-size: 18px; border-bottom: 1px solid var(--line); padding-bottom: 4px; }
+[data-v3] .pf-body p { margin: 6px 0; }
+[data-v3] .pf-body ul { margin: 6px 0 6px 20px; padding: 0; }
+[data-v3] .pf-body li { margin: 3px 0; }
+[data-v3] .pf-body code { font-family: var(--mono); font-size: 13px; background: #f1f1ef; padding: 0 5px; border-radius: 4px; }
+[data-v3] .profile-mode .tab-panel input, [data-v3] .profile-mode .tab-panel select, [data-v3] .profile-mode .tab-panel textarea { background: transparent; cursor: default; }
+
+/* 직원 대화 화면: "목록" 버튼은 뺀다(위 메뉴로 이동) */
+[data-v3] .chat-head #backBtn { display: none; }
+
+/* ---------- 직원 소개: 한 화면에 맞춤(페이지 스크롤 없음). 긴 내용은 각 탭 상자 안에서만 스크롤 ---------- */
+@media (min-width: 901px) {
+  [data-v3] #app:has(.profile-mode) .page-head { margin: 4px 0 6px; }
+  [data-v3] #app:has(.profile-mode) .page-head h1 { font-size: 26px; margin: 0; }
+  [data-v3] #app:has(.profile-mode) .page-head p { display: none; }
+  [data-v3] #app:has(.profile-mode) .page-head .back { margin: 0; }
+  [data-v3] .profile-mode .tab-panel:not([data-panel="graph"]) { max-height: calc(100vh - 330px); overflow-y: auto; padding-right: 6px; }
+  [data-v3] .profile-mode .graph-stage, [data-v3] .profile-mode .graph-side, [data-v3] .profile-mode .graph-outline { height: calc(100vh - 430px); min-height: 260px; }
+  [data-v3] .profile-mode .graph-controls { margin-top: 0; }
+  [data-v3] .profile-mode .pf-body { max-height: none; }
+}
+.pf-note { margin: 0 0 8px; padding: 8px 14px; border-left: 3px solid #111; background: rgba(255, 255, 255, .8); border-radius: 0 10px 10px 0; font-size: 14px; line-height: 1.6; color: #111; }
+@media (min-width: 901px) { [data-v3] .profile-mode .graph-stage, [data-v3] .profile-mode .graph-side, [data-v3] .profile-mode .graph-outline { height: calc(100vh - 490px); } }
+@media (min-width: 901px) { [data-v3] .profile-mode .tab-panel:not([data-panel="graph"]) { max-height: calc(100vh - 330px); } }
+
+/* 좌측 상단 행사 표기 글자를 더 크게 */
+[data-v3] .event-tag { font-size: 17px; padding: 8px 18px; left: 20px; top: 16px; border-width: 1.5px; font-weight: 500; }
+@media (max-width: 1500px) { [data-v3] .event-tag { font-size: 15px; padding: 6px 14px; } }
+@media (max-width: 1200px) { [data-v3] .event-tag { font-size: 13px; padding: 4px 11px; left: 10px; top: 10px; } }
+
+/* 상단 메뉴(경남 상권 진단 · 상담소 · 사무실 · 열람실)를 더 크게 */
+[data-v3] .brand { padding: 12px 24px; border-radius: 26px; }
+[data-v3] .brand b { font-size: 22px; }
+[data-v3] .topbar nav { padding: 6px 10px; border-radius: 26px; gap: 4px; }
+[data-v3] .topbar nav a { font-size: 21px; padding: 10px 20px; border-radius: 18px; }
+[data-v3] .topbar { padding-top: 14px; gap: 12px; }
+@media (max-width: 1500px) { [data-v3] .brand b { font-size: 19px; } [data-v3] .topbar nav a { font-size: 18px; padding: 8px 16px; } }
+
+/* ---------- 상담소 머리글 디자인: 작은 라벨 + 큰 제목(핵심 글자에 라임 형광펜) + 번호 단계 칩 ---------- */
+[data-v3] .page-head { text-align: center; }
+.hero-kick { display: inline-flex; align-items: center; gap: 8px; margin: 0 0 8px; padding: 4px 14px 4px 10px; border: 1px solid #111; border-radius: 999px; background: rgba(255, 255, 255, .92); font-family: var(--mono); font-size: 13px; letter-spacing: .02em; color: #111; }
+.hero-kick i { width: 9px; height: 9px; border-radius: 50%; background: #b8f36b; border: 1px solid #111; box-shadow: 0 0 10px #b8f36b; }
+[data-v3] .page-head h1 { margin: 0 0 12px; font-size: clamp(34px, 3.6vw, 52px); line-height: 1.18; font-weight: 400; letter-spacing: -.04em; color: #0d0d0d;
+  text-shadow: 0 0 14px rgba(255, 255, 255, .95), 0 0 4px rgba(255, 255, 255, .9); }
+.h-l1, .h-l2 { display: block; }
+.h-l2 { font-weight: 500; }
+.h-l2 em { position: relative; font-style: normal; z-index: 0; }
+.h-l2 em::after { content: ""; position: absolute; left: -6px; right: -6px; bottom: 3px; height: .42em; background: #b8f36b; border-radius: 6px; z-index: -1; transform: skewX(-6deg); box-shadow: 0 0 18px rgba(184, 243, 107, .8); }
+[data-v3] .page-head .hero-sub { display: inline-flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px; padding: 8px 18px; border-radius: 999px; background: rgba(255, 255, 255, .88); font-size: 16px; color: #111; text-shadow: none; }
+.hero-sub .hk { display: inline-flex; align-items: center; gap: 7px; margin: 0; padding: 3px 12px 3px 4px; border: 1px solid #111; border-radius: 999px; background: #fff; font-family: "IBM Plex Sans KR", sans-serif; font-size: 15px; font-weight: 500; }
+.hero-sub .hk i { display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: #111; color: #fff; font-family: var(--mono); font-size: 12px; font-style: normal; }
+.hero-sub .hk:last-of-type i { background: #b8f36b; color: #111; border: 1px solid #111; }
+/* 머리글을 디자인하면서 늘어난 높이만큼 줄여 한 화면에 맞춘다 */
+.hero-kick { margin: 0 0 2px; padding: 2px 12px 2px 9px; font-size: 12px; }
+[data-v3] .page-head h1 { margin: 0 0 6px; font-size: clamp(28px, 2.7vw, 40px); line-height: 1.12; }
+[data-v3] .page-head .hero-sub { padding: 4px 14px; gap: 6px; font-size: 14px; }
+.hero-sub .hk { font-size: 13.5px; padding: 2px 10px 2px 3px; }
+.hero-sub .hk i { width: 19px; height: 19px; font-size: 11px; }
+[data-v3] .page-head { margin: 10px 0 10px; }
+/* 단계 칩은 번호와 글자가 한 줄로 */
+[data-v3] .hero-sub .hk { display: inline-flex; flex-direction: row; align-items: center; white-space: nowrap; font-family: "IBM Plex Sans KR", sans-serif; font-size: 13.5px; padding: 2px 11px 2px 3px; margin: 0; border-radius: 999px; }
+[data-v3] .hero-sub .hk i { flex: none; }
+
+/* ---------- 직원 대화: 캐릭터가 말하는 말풍선 ---------- */
+[data-v3] .chat-body { gap: 14px; padding: 18px 22px; }
+[data-v3] .bubble.user { background: #111; color: #fff; border-radius: 18px 18px 4px 18px; font-size: 15px; line-height: 1.6; max-width: 70%; animation: msg-pop .2s ease-out; }
+@keyframes msg-pop { from { opacity: 0; transform: translateY(6px) scale(.97); } to { opacity: 1; transform: none; } }
+@keyframes av-think { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+@keyframes msg-dots { 0% { content: ""; } 25% { content: "."; } 50% { content: ".."; } 75% { content: "..."; } 100% { content: ""; } }
+
+
+/* 대화 화면 위쪽 머리글의 작은 캐릭터 그림은 뺀다(대화 안의 큰 캐릭터만 남긴다) */
+[data-v3] .chat-head .avatar, [data-v3] .chat-head .slot { display: none; }
+
+/* ---------- 대화: 캐릭터는 왼쪽 아래에 고정, 최근 답은 그 옆 말풍선, 이전 대화는 위 일반 채팅 ---------- */
+@media (min-width: 901px) { [data-v3] .chat { grid-template-rows: auto 1fr auto auto; } }
+.chat-stage { display: flex; align-items: flex-end; gap: 18px; padding: 10px 22px 8px; border-top: 1px solid #e4e4e4; background: rgba(255, 255, 255, .5); }
+.chat-char { flex: none; width: 200px; height: 200px; }
+.chat-char img { width: 200px; height: 200px; display: block; filter: drop-shadow(0 8px 10px rgba(0, 0, 0, .16)); }
+.chat-char.thinking { animation: av-think .9s ease-in-out infinite; }
+.chat-char.thinking img { filter: drop-shadow(0 0 16px rgba(184, 243, 107, .95)); }
+.stage-wrap { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: flex-end; max-height: 200px; }
+.stage-say { position: relative; max-height: 168px; overflow-y: auto; padding: 14px 18px; background: #fff; border: 1px solid #111; border-radius: 22px 22px 22px 6px; box-shadow: 0 4px 14px rgba(0, 0, 0, .08); line-height: 1.7; font-size: 15.5px; white-space: pre-wrap; animation: msg-pop .25s ease-out; }
+.stage-say::before { content: ""; position: absolute; left: -7px; bottom: 18px; width: 12px; height: 12px; background: #fff; border-left: 1px solid #111; border-bottom: 1px solid #111; transform: rotate(45deg); }
+.stage-say.pending { color: #555; border-style: dashed; box-shadow: 0 0 16px rgba(184, 243, 107, .8); }
+.stage-say.pending::after { content: ""; display: inline-block; width: 1.3em; text-align: left; animation: msg-dots 1.2s steps(4, end) infinite; }
+.stage-src { margin-top: 4px; }
+[data-v3] .chat-body .bubble.assistant { max-width: 82%; }
+@media (max-width: 1100px) { .chat-char, .chat-char img { width: 120px; height: 120px; } .stage-wrap { max-height: 140px; } .stage-say { max-height: 110px; } }
+@media (prefers-reduced-motion: reduce) { .chat-char.thinking, .stage-say.pending::after { animation: none; } }
+
+/* 대화 캐릭터는 책상에 앉아 있고, 무대는 더 높게 */
+.chat-char { position: relative; width: 280px; height: 300px; }
+.chat-char img { position: absolute; left: 0; bottom: 36px; width: 280px; height: 280px; background: transparent; border-radius: 0; border: 0; z-index: 1; filter: drop-shadow(0 6px 8px rgba(0, 0, 0, .14)); }
+.chat-desk { position: absolute; left: -6px; right: -6px; bottom: 0; height: 104px; z-index: 2; background: #e3e3e0; border-radius: 10px; box-shadow: inset 0 -12px 0 #c9c9c6, 0 3px 0 rgba(0, 0, 0, .15); }
+.chat-monitor { position: absolute; right: 8px; bottom: 96px; width: 74px; height: 54px; z-index: 3; background: #fff; border: 4px solid #111; border-radius: 6px; box-shadow: 0 4px 0 -1px #111; }
+.chat-monitor::before { content: ""; position: absolute; inset: 5px; background: #b8f36b; border-radius: 2px; }
+.chat-monitor::after { content: ""; position: absolute; left: 50%; bottom: -14px; width: 20px; height: 8px; margin-left: -10px; background: #111; border-radius: 2px; }
+.chat-char.thinking .chat-monitor::before { animation: say-blink 1s steps(2) infinite; }
+.chat-char.thinking { animation: none; }
+.chat-char.thinking img { animation: av-think .9s ease-in-out infinite; filter: drop-shadow(0 0 16px rgba(184, 243, 107, .95)); }
+.chat-stage { align-items: flex-end; padding: 10px 22px 8px; }
+.stage-wrap { max-height: 300px; padding-bottom: 28px; }
+.stage-say { max-height: 262px; }
+@media (max-width: 1100px) { .chat-char { width: 160px; height: 190px; } .chat-char img { width: 160px; height: 160px; bottom: 24px; } .chat-desk { height: 64px; } .chat-monitor { width: 44px; height: 34px; bottom: 58px; } .stage-wrap { max-height: 190px; } .stage-say { max-height: 150px; } }
+
+/* 캐릭터(무대)는 위, 대화 기록은 아래 */
+@media (min-width: 901px) { [data-v3] .chat { grid-template-rows: auto auto 1fr auto; } }
+.chat-stage { border-top: 0; border-bottom: 1px solid #e4e4e4; }
+
+/* 캐릭터 옆 말풍선 글자를 크게(아래 대화 기록 글자는 그대로 15px) */
+.stage-say { font-size: 22px; line-height: 1.65; padding: 18px 24px; border-radius: 26px 26px 26px 8px; }
+@media (max-width: 1100px) { .stage-say { font-size: 18px; padding: 14px 18px; } }
+
+/* 채팅 무대: 캐릭터는 왼쪽, 말풍선은 그 오른쪽. 창이 좁아도 말풍선이 가늘어지지 않게 캐릭터를 창 폭에 맞춰 줄인다 */
+.stage-wrap { min-width: 320px; }
+@media (max-width: 1500px) { .chat-char { width: 220px; height: 250px; } .chat-char img { width: 220px; height: 220px; bottom: 30px; } .chat-desk { height: 84px; } .stage-wrap { max-height: 250px; } .stage-say { max-height: 212px; } }
+@media (max-width: 1300px) { .chat-char { width: 170px; height: 200px; } .chat-char img { width: 170px; height: 170px; bottom: 26px; } .chat-desk { height: 66px; } .chat-monitor { width: 48px; height: 36px; bottom: 60px; } .stage-wrap { max-height: 200px; } .stage-say { max-height: 160px; font-size: 19px; } }
+@media (max-width: 1100px) { .stage-wrap { min-width: 240px; } }
+
+/* 캐릭터는 오른쪽, 말풍선은 그 왼쪽 (꼬리도 캐릭터 쪽인 오른쪽으로) */
+.chat-stage .chat-char { order: 2; }
+.chat-stage .stage-wrap { order: 1; }
+.stage-say { border-radius: 26px 26px 8px 26px; }
+.stage-say::before { left: auto; right: -7px; border-left: 0; border-bottom: 1px solid #111; border-right: 1px solid #111; }
+.stage-say { overflow-x: hidden; }
+.stage-say::before { display: none; }
+
+/* 만화풍 말풍선: 좌측 상단, 굵은 테두리 + 그림자, 꼬리는 오른쪽 캐릭터를 향함 */
+.chat-stage .stage-wrap { align-self: flex-start; justify-content: flex-start; position: relative; padding: 14px 0 0; margin-right: 22px; }
+.stage-say { border: 3px solid #111; border-radius: 30px; box-shadow: 6px 6px 0 #111; font-weight: 600; background: #fff; }
+.stage-say.pending { border-style: solid; box-shadow: 6px 6px 0 #111, 0 0 18px rgba(184, 243, 107, .9); }
+.chat-stage .stage-wrap::before, .chat-stage .stage-wrap::after { content: ""; position: absolute; top: 74px; width: 0; height: 0; border-style: solid; }
+.chat-stage .stage-wrap::before { right: -26px; border-width: 15px 0 15px 30px; border-color: transparent transparent transparent #111; margin-top: 3px; }
+.chat-stage .stage-wrap::after { right: -19px; border-width: 12px 0 12px 24px; border-color: transparent transparent transparent #fff; margin-top: 6px; }
+.stage-say { max-width: none; width: calc(100% - 8px); }
+[data-v3] .bubble.assistant.stage-say { border: 3px solid #111; }
+.stage-say { scrollbar-width: none; -ms-overflow-style: none; }
+.stage-say::-webkit-scrollbar { display: none; }
+/* 말풍선 꼬리: 풍선 아래 오른쪽에서 캐릭터 쪽(오른쪽 아래)으로 뾰족하게 */
+.chat-stage .stage-wrap::before, .chat-stage .stage-wrap::after { top: auto; margin: 0; border: 0; right: auto; }
+.chat-stage .stage-wrap::before { left: calc(100% - 150px); bottom: -27px; width: 48px; height: 31px; background: #111; clip-path: polygon(0 0, 100% 0, 100% 100%); }
+.chat-stage .stage-wrap::after { left: calc(100% - 147px); bottom: -22px; width: 40px; height: 25px; background: #fff; clip-path: polygon(0 0, 100% 0, 100% 100%); }
+/* 자연스러운 말풍선: 얇은 테두리·부드러운 그림자, 꼬리는 캐릭터 쪽(오른쪽)으로 */
+[data-v3] .bubble.assistant.stage-say { border: 2px solid #111; border-radius: 28px; box-shadow: 0 6px 18px rgba(0, 0, 0, .12); font-weight: 500; width: 100%; }
+.stage-say.pending { box-shadow: 0 0 18px rgba(184, 243, 107, .9); }
+.chat-stage .stage-wrap::after { display: none; }
+.chat-stage .stage-wrap::before { left: auto; right: -9px; bottom: 36px; width: 18px; height: 18px; clip-path: none; background: #fff; border-top: 2px solid #111; border-right: 2px solid #111; transform: rotate(45deg); border-radius: 0 6px 0 0; }
+.chat-stage .stage-wrap::before { right: -13px; bottom: 30px; width: 26px; height: 26px; z-index: 2; border-radius: 0 8px 0 0; }
+/* 말풍선은 내용 크기만큼만, 캐릭터 머리 높이에서 바로 왼쪽에 붙인다 */
+.chat-stage .stage-wrap { align-items: flex-end; padding-top: 34px; margin-right: 20px; }
+[data-v3] .bubble.assistant.stage-say { width: fit-content; max-width: 100%; font-size: 20px; font-weight: 500; line-height: 1.7; padding: 16px 24px; }
+.chat-stage .stage-wrap::before { bottom: auto; top: 76px; right: -4px; width: 20px; height: 20px; }
+/* 책상·모니터 제거: 캐릭터만 */
+.chat-desk, .chat-monitor { display: none !important; }
+.chat-char { height: 280px; }
+.chat-char img { bottom: 0; }
+@media (max-width: 1500px) { .chat-char { height: 220px; } .chat-char img { bottom: 0; } .stage-wrap { max-height: 220px; } }
+@media (max-width: 1300px) { .chat-char { height: 170px; } .chat-char img { bottom: 0; } .stage-wrap { max-height: 170px; } }
+/* 말풍선과 캐릭터를 가깝게, 꼬리를 또렷하게 */
+.chat-stage .chat-char { margin-left: -36px; }
+.chat-stage .stage-wrap { margin-right: 30px; }
+.chat-stage .stage-wrap::before { top: 62px; right: -15px; width: 28px; height: 28px; border-radius: 0 10px 0 0; }
+[data-v3] .bubble.assistant.stage-say { margin-left: auto; margin-right: 0; align-self: flex-end; }
+/* 말풍선 시안 적용: 연한 테두리·부드러운 그림자·가운데 정렬 꼬리 */
+.chat-stage .stage-wrap { padding: 0; margin-top: 34px; margin-right: 26px; }
+[data-v3] .bubble.assistant.stage-say { border: 1px solid #e2e8f0; border-radius: 24px; padding: 16px 24px; color: #1e293b; font-size: 19px; font-weight: 400; line-height: 1.6; box-shadow: 0 4px 14px rgba(0, 0, 0, .06); max-width: 100%; }
+.stage-say.pending { box-shadow: 0 0 18px rgba(184, 243, 107, .9); }
+.chat-stage .stage-wrap::before, .chat-stage .stage-wrap::after { display: block; content: ""; position: absolute; top: 50%; bottom: auto; width: 0; height: 0; transform: translateY(-50%); background: none; clip-path: none; border-radius: 0; border-style: solid; margin: 0; }
+.chat-stage .stage-wrap::after { right: -8px; border-width: 8px 0 8px 8px; border-color: transparent transparent transparent #fff; z-index: 3; }
+.chat-stage .stage-wrap::before { right: -9px; border-width: 8px 0 8px 8px; border-color: transparent transparent transparent #e2e8f0; z-index: 2; }
+/* 캐릭터 옆 화분 */
+.chat-plant { order: 3; flex: none; align-self: flex-end; width: 80px; height: 140px; margin-left: -22px; filter: drop-shadow(0 6px 6px rgba(0, 0, 0, .12)); }
+.chat-plant svg { display: block; }
+@media (max-width: 1100px) { .chat-plant { display: none; } }
+/* 말풍선 글자: 영화 자막처럼 또렷하고 단정한 고딕 */
+[data-v3] .bubble.assistant.stage-say { font-family: "Pretendard", "IBM Plex Sans KR", "Malgun Gothic", sans-serif; font-size: 20px; font-weight: 500; letter-spacing: -.015em; line-height: 1.6; color: #0f172a; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+.chat-stage .stage-wrap::before, .chat-stage .stage-wrap::after { left: auto; }
+/* 채팅 화면 배경은 그냥 흰색 */
+[data-v3] .chat, [data-v3] .chat-stage, [data-v3] .chat .chat-body, [data-v3] #chatBody, [data-v3] .chat .composer, [data-v3] .chat form { background: #fff; }
+/* 상담소 채팅 화면은 풍경 배경 없이 흰색 */
+[data-v3] body:has(.chat-stage)::before { display: none; }
+[data-v3] body:has(.chat-stage) { background: #fff; }
+[data-v3] body:has(.chat-stage) .topbar { background: #fff; }
+/* 사이트 전체 배경: 풍경 그림 없이 흰색 */
+[data-v3] body::before { display: none; }
+[data-v3] body { background: #fff; }
+[data-v3] .topbar { background: #fff; }
+/* 겨울 배경: 눈 내린 새벽 같은 옅은 얼음빛 */
+[data-v3] body { background: linear-gradient(180deg, #e8f0f8 0%, #dfe9f3 55%, #d6e3f0 100%) fixed; }
+[data-v3] .topbar { background: transparent; }
+html[data-v3] { background: #dfe9f3; min-height: 100%; }
+[data-v3] body { min-height: 100vh; }
+[data-v3] .site-foot { background: #eef3f9; border-top-color: #cfdbe9; }
+/* 상담소 머리: 작은 태그 제거, 제목 한 줄, 안내줄 글자 키움 */
+[data-v3] .hero-kick { display: none !important; }
+[data-v3] .page-head h1 .h-l1, [data-v3] .page-head h1 .h-l2 { display: inline; white-space: nowrap; }
+[data-v3] .page-head h1 .h-l1 { margin-right: .3em; }
+[data-v3] .page-head > .hero-sub { font-size: 18px; }
+[data-v3] .hero-sub .hk { font-size: 16px; padding: 4px 13px; margin: 0 6px; }
+/* 전체 페이지 배경: 도심 횡단보도 그림(카드·패널은 흰색 유지, 그림은 살짝 옅게) */
+html[data-v3] { background: #dfe7f1; }
+[data-v3] body { background: transparent; }
+[data-v3] body::before, [data-v3] body:has(.chat-stage)::before { display: block; content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background: url("bg_city.jpg") center / cover no-repeat; opacity: .55; filter: none; }
+[data-v3] body:has(.chat-stage) { background: transparent; }
+[data-v3] .topbar, [data-v3] body:has(.chat-stage) .topbar { background: transparent; }
+[data-v3] .site-foot { background: rgba(255, 255, 255, .88); border-top-color: #d7dee8; }
+/* 상담소: 머리가 한 줄로 줄어든 만큼 지도·조건 패널을 키워 화면 아래까지 채운다(페이지 스크롤 없이) */
+@media (min-width: 901px) {
+  html[data-v3] .cm2 .cm-map #regionMap, html[data-v3] .cm2 .cm-side { height: calc(100vh - 505px) !important; min-height: 260px !important; max-height: none !important; }
+  html[data-v3] .cm2:has(.cm-hint) .cm-map #regionMap, html[data-v3] .cm2:has(.cm-hint) .cm-side { height: calc(100vh - 565px) !important; }
+  html[data-v3]:has(.staff-card .bubble:not([hidden])) .cm2 .cm-map #regionMap, html[data-v3]:has(.staff-card .bubble:not([hidden])) .cm2 .cm-side { height: calc(100vh - 536px) !important; }
+  html[data-v3]:has(.staff-card .bubble:not([hidden])) .cm2:has(.cm-hint) .cm-map #regionMap, html[data-v3]:has(.staff-card .bubble:not([hidden])) .cm2:has(.cm-hint) .cm-side { height: calc(100vh - 596px) !important; }
+}
+/* 경상남도 마크 */
+[data-v3] .brand { display: inline-flex; align-items: center; gap: 10px; }
+[data-v3] .brand .brand-mark { height: 34px; width: auto; display: block; flex: none; }
+[data-v3] .brand .brand-mark { height: 56px; margin: -6px 2px -6px -4px; }
+[data-v3] .brand .brand-mark { height: 46px; width: 46px; margin: 0 4px 0 -2px; object-fit: contain; }
+/* 상담소 글자 키움 */
+[data-v3] .step-t { font-size: 18px; color: var(--text); }
+[data-v3] .step-t small { font-size: 15px; }
+[data-v3] .rgn-panel .chip, [data-v3] .seg button, [data-v3] .scope-sel select { font-size: 17px; padding: 7px 14px; }
+[data-v3] .rgn-panel .chip small, [data-v3] .rgn-panel .chip .n { font-size: 13px; }
+[data-v3] .rgn-panel .small, [data-v3] .rgn-panel .muted, [data-v3] .rgn-sum { font-size: 15px; }
+[data-v3] .rgn-sum b { font-size: 17px; }
+[data-v3] .rgn-panel .cta { font-size: 18px; padding: 14px; }
+[data-v3] .step-n { width: 26px; height: 26px; font-size: 14px; }
+[data-v3] .crumb { font-size: 15px; }
+[data-v3] .rgn-btn .rgn-name { font-size: 17px; }
+[data-v3] .team-block .staff-card b { font-size: 18px; }
+[data-v3] .team-block .staff-card > div:last-child .small:not(.muted) { font-size: 14px; }
+[data-v3] .cm-hint { font-size: 15px; }
+/* 안내 줄: 알약 배경 없이, 그림 위에서도 읽히게 흰 글자 윤곽만 */
+[data-v3] .page-head > .hero-sub { background: none !important; box-shadow: none; text-shadow: 0 0 6px #fff, 0 0 10px #fff, 0 0 14px #fff; }
+[data-v3] .hero-sub .hk { background: #fff; text-shadow: none; }
+/* 지역 선택: 경로와 시·군 버튼을 한 줄로 */
+[data-v3] #cmTop { display: flex; align-items: center; gap: 16px; background: rgba(255, 255, 255, .88); border: 1px solid var(--line, #e4e4e4); border-radius: 14px; padding: 8px 14px; margin-bottom: 12px; }
+[data-v3] #cmTop > * { background: none !important; border: 0 !important; box-shadow: none !important; padding: 0 !important; margin: 0 !important; }
+[data-v3] #cmTop .rgn-row { flex: 1; display: flex; flex-wrap: nowrap; gap: 8px; overflow: hidden; }
+[data-v3] #cmTop .crumbs, [data-v3] #cmTop > :first-child:not(.rgn-row) { flex: none; white-space: nowrap; padding-right: 16px !important; border-right: 1px solid #d5dbe3 !important; }
+/* 지도 범례 다시 보이기 */
+[data-v3] .cm-legend { display: flex !important; position: absolute; left: 10px; bottom: 10px; z-index: 500; margin: 0; padding: 5px 12px; background: rgba(255, 255, 255, .92); border-radius: 999px; font-size: 14px; color: #222; }
+[data-v3] .cm-legend .cm-dot { display: none; }
+[data-v3] .cm-map { position: relative; }
+/* 지역 선택이 한 줄이 된 만큼 지도·패널을 더 키움 */
+@media (min-width: 901px) {
+  html[data-v3] .cm2 .cm-map #regionMap, html[data-v3] .cm2 .cm-side { height: calc(100vh - 461px) !important; }
+  html[data-v3] .cm2:has(.cm-hint) .cm-map #regionMap, html[data-v3] .cm2:has(.cm-hint) .cm-side { height: calc(100vh - 521px) !important; }
+  html[data-v3]:has(.staff-card .bubble:not([hidden])) .cm2 .cm-map #regionMap, html[data-v3]:has(.staff-card .bubble:not([hidden])) .cm2 .cm-side { height: calc(100vh - 492px) !important; }
+}
+/* 사무실: 글자 키움·상태색·최근 실행 정리 */
+[data-v3] #app:has(#officeHistory) .page-head.head-row h1 { font-size: 26px; }
+[data-v3] #app:has(#officeHistory) .page-head.head-row p { font-size: 14.5px; background: rgba(255,255,255,.82); display: inline-block; padding: 4px 16px; border-radius: 999px; }
+[data-v3] .dname { font-size: 17px; font-weight: 700; }
+[data-v3] .seat-name { font-size: 14px; font-weight: 500; }
+[data-v3] .seat-role, [data-v3] .seat-no, [data-v3] .cnt { font-size: 11.5px; }
+[data-v3] .stage-arrow span { font-size: 12.5px; font-weight: 500; color: #222; background: rgba(255,255,255,.9); border: 1px solid #cfd6df; border-radius: 999px; padding: 2px 9px; }
+[data-v3] .equip .seat-name { font-size: 13px; }
+[data-v3] .equip .st { font-size: 12px; }
+[data-v3] .equip .dname, [data-v3] .dname + .dcount { font-size: 14px; }
+[data-v3] .st.st-empty { background: #eceff3; color: #5b6572; border-color: #c9d0d9; }
+[data-v3] .st.st-empty::before { content: "– "; }
+[data-v3] .flow-table td, [data-v3] .flow-table td a { font-size: 14px; }
+[data-v3] .flow-table th { font-size: 13px; }
+[data-v3] .flow-table .pill { font-size: 12.5px; }
+[data-v3] .flow-section h3 { font-size: 20px; font-weight: 700; }
+/* 사무실 높이 줄이기: 직원 책상 아래·설비실 위 빈 공간을 걷어 최근 실행이 더 보이게 */
+[data-v3] .stage.live .equip-room .equip-list { padding-top: 30px; }
+[data-v3] .stage .equip-room { margin-top: 16px; }
+[data-v3] .stage { padding-bottom: 10px; }
+@media (min-width: 901px) {
+  [data-v3] .flow-section:has(#officeHistory) { height: calc(100vh - 745px) !important; min-height: 190px; }
+}
+[data-v3] #officeHistory > p.muted { display: none; }
+[data-v3] .flow-section:has(#officeHistory) h3 { margin: 0 0 4px; }
+[data-v3] .stage.live .room:not(.equip-room) .seat { margin-bottom: -16px; }
+/* 회사 실행 기록: 한 화면에 다 보이게 촘촘히 — 부서마다 한 덩어리, 책상은 작은 카드로 나란히 */
+[data-v3] #app:has(#fBody) .page-head { margin: 4px 0 8px; }
+[data-v3] #app:has(#fBody) .page-head h1 { font-size: 24px; margin: 0; }
+[data-v3] #fBody { display: grid; gap: 10px; }
+[data-v3] #fBody .flow-arrow-conn { display: none; }
+[data-v3] #fBody .flow-dept { display: grid; grid-template-columns: 210px 1fr; gap: 6px 14px; align-items: start; padding: 10px 14px; background: rgba(255,255,255,.92); }
+[data-v3] #fBody .flow-dept-head { margin: 0; flex-direction: column; align-items: flex-start; gap: 5px; }
+[data-v3] #fBody .flow-dept-head b { font-size: 17px; }
+[data-v3] #fBody .flow-dept-head .resume-btn { font-size: 12px; }
+[data-v3] #fBody .flow-desks { display: grid; grid-template-columns: repeat(auto-fill, minmax(215px, 1fr)); gap: 6px; }
+[data-v3] #fBody .flow-desk { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; padding: 6px 10px; border-radius: 10px; }
+[data-v3] #fBody .flow-desk .flow-task, [data-v3] #fBody .flow-desk .flow-who .muted, [data-v3] #fBody .flow-desk .flow-ins .muted, [data-v3] #fBody .flow-desk .flow-ins .small:not(.flow-dl) { display: none; }
+[data-v3] #fBody .flow-desk .flow-who { display: flex; align-items: center; gap: 6px; min-width: 0; }
+[data-v3] #fBody .flow-desk .flow-who b { font-size: 14.5px; }
+[data-v3] #fBody .flow-desk .flow-who .resume-btn { font-size: 0; }
+[data-v3] #fBody .flow-desk .flow-who .resume-btn::before { content: "↻"; font-size: 15px; text-decoration: none; }
+[data-v3] #fBody .flow-desk .flow-ins { display: flex; align-items: center; gap: 6px; margin-left: auto; }
+[data-v3] #fBody .flow-desk .flow-dl { margin: 0; }
+[data-v3] #fBody .flow-desk .flow-dl .btn { padding: 3px 9px; font-size: 12.5px; }
+@media (max-width: 900px) { [data-v3] #fBody .flow-dept { grid-template-columns: 1fr; } }
+[data-v3] #fHead, [data-v3] .flow-section[hidden] { display: none !important; }
+[data-v3] #fBody .flow-dept-head { flex-direction: row; flex-wrap: wrap; align-items: center; }
+[data-v3] #fBody .flow-dept { grid-template-columns: 190px 1fr; }
+/* 책상 카드: 읽기 전용 보고서 버튼은 보이게 */
+[data-v3] #fBody .flow-desk .flow-ins .flow-dl { display: flex !important; }
+[data-v3] #fBody .flow-desk .flow-ins > div:not(.flow-dl):not(:first-child) { display: none; }
+/* 책상 카드: 읽기 전용 보고서 버튼 항상 보이게 */
+[data-v3] #fBody .flow-desk .flow-ins { flex-wrap: nowrap; }
+[data-v3] #fBody .flow-desk .flow-ins .flow-dl { display: flex !important; }
+[data-v3] #fBody .flow-desk .flow-ins .flow-dl .btn { white-space: nowrap; }
+[data-v3] #fBody .flow-desk .flow-ins > div { display: block; }
+[data-v3] #fBody .flow-desk .flow-ins > div.small:not(:has(.flow-dl)) { display: none; }
+
+/* 컴퓨터 화면: 탭이 하나뿐이라 탭 줄 숨김 */
+[data-v3] .pc-tabs { display: none; }
+/* 직원 소개 카드의 모델 이름(deepseek …) 숨김 */
+[data-v3] #pvModel, [data-v3] .pv-meta { display: none !important; }
+
+/* 상담소: 지도와 왼쪽 패널의 위·아래를 같은 선에 */
+@media (min-width: 901px) {
+  [data-v3] .cm-body { align-items: stretch; }
+  [data-v3] .cm-map { margin-top: -12px; }
+}
+
+/* 실행 기록: 책상 카드의 읽기 전용 보고서 버튼(.btn.small 이 'small' 숨김 규칙에 걸리던 것) */
+[data-v3] #fBody .flow-desk .flow-dl .btn.small { display: inline-flex !important; align-items: center; }
+
+/* 글자가 배경 그림에 묻히지 않게: 그림을 더 옅게, 머리글·탭·소개 글에 흰 판 */
+[data-v3] body::before, [data-v3] body:has(.chat-stage)::before { opacity: .34; }
+[data-v3] .page-head > h1, [data-v3] .page-head > p, [data-v3] .page-head > .back, [data-v3] .page-head h1, [data-v3] .page-head p#libInfo, [data-v3] .pc-tabs, [data-v3] .page-head .hero-sub { background: rgba(255, 255, 255, .88) !important; border-radius: 12px; padding-left: 14px; padding-right: 14px; display: table; margin-left: auto; margin-right: auto; }
+[data-v3] .page-head > .back { display: inline-block; padding: 2px 12px; }
+[data-v3] #app .profile-mode .tabs, [data-v3] #app .tabs, [data-v3] .pf-head, [data-v3] .pf-tag, [data-v3] .pf-name { background: rgba(255, 255, 255, .88); border-radius: 12px; }
+
+/* 사무실 글자 한 단계 키움 */
+[data-v3] .stage-arrow span { font-size: 14.5px; padding: 3px 11px; }
+[data-v3] .stage .live-say, [data-v3] .stage .staff-state, [data-v3] .stage .state-tag { font-size: 13.5px; }
+[data-v3] .seat-name { font-size: 16px; }
+[data-v3] .room-title .dname { font-size: 18px; }
+[data-v3] .equip .seat-name, [data-v3] .equip-open { font-size: 14.5px; }
+[data-v3] .equip .st { font-size: 13.5px; }
+[data-v3] .equip-room .room-title .dcount { font-size: 13.5px; }
+[data-v3] .stage-result, [data-v3] .stage-result b { font-size: 15.5px; }
+[data-v3] .stage-result span { font-size: 14px; }
+[data-v3] .flow-table td, [data-v3] .flow-table td a { font-size: 15.5px; }
+[data-v3] .flow-table th { font-size: 14px; }
+[data-v3] .flow-section h3 { font-size: 21px; }
+[data-v3] .live-say, [data-v3] .live-say .tx, [data-v3] .seat .live-say { font-size: 14px; }
+[data-v3] .seat::after { font-size: 13.5px !important; padding: 0 10px !important; top: 0 !important; right: -6px !important; }
+[data-v3] .equip-open, [data-v3] .equip .seat-name { white-space: nowrap; }
+[data-v3] .equip { min-width: 0; }
+/* 색인 장비 스위치(젯슨 / 이 PC) */
+.dev-switch { display: inline-flex; border: 1px solid #111; border-radius: 999px; overflow: hidden; margin-left: 10px; }
+.dev-switch button { border: 0; border-radius: 0; background: #fff; padding: 5px 14px; font-size: 14px; cursor: pointer; }
+.dev-switch button.on { background: #111; color: #fff; }
+.dev-switch button:disabled { opacity: .4; cursor: not-allowed; }
+
+/* 열람실: 포스터 목록 높이를 숫자로 박지 않고 남는 공간에 맞춘다.
+   (예전에는 calc(100vh - 336px) 였는데, 위쪽 글자·여백을 키울 때마다 숫자가 어긋나 아래가 잘렸다) */
+@media (min-width: 901px) {
+  [data-v3] body:has(#app > .gallery) { height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
+  [data-v3] body:has(#app > .gallery) > main#app { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column;
+    padding-bottom: 56px; box-sizing: border-box; }   /* 56px = 화면 아래에 고정된 회사 정보 줄 */
+  [data-v3] body:has(#app > .gallery) .gallery { flex: 1 1 auto; min-height: 0; max-height: none; overflow-y: auto; }
+}
+/* 화면이 낮으면 포스터 카드가 통째로 보이도록 카드를 납작하게(가로폭 x 비율로 높이가 정해진다) */
+@media (min-width: 901px) and (max-height: 940px) {
+  [data-v3] .gallery { grid-template-columns: repeat(auto-fill, minmax(215px, 240px)); gap: 14px; }
+  [data-v3] .gallery .poster { aspect-ratio: 2 / 2.55; }
+  [data-v3] .gallery .po-head { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+}
+@media (min-width: 901px) and (max-height: 800px) {
+  [data-v3] .gallery { grid-template-columns: repeat(auto-fill, minmax(195px, 215px)); gap: 12px; }
+  [data-v3] .gallery .poster { aspect-ratio: 2 / 2.1; }
+  [data-v3] .gallery .po-head { -webkit-line-clamp: 2; }
+}

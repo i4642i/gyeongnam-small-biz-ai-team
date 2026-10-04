@@ -1,0 +1,70 @@
+{
+  "HOUST1F": {
+    "frequency_short": "M",
+    "fetched_at": "2026-09-27"
+  },
+  "RSFSDP": {
+    "frequency_short": "M",
+    "fetched_at": "2026-09-27"
+  },
+  "CUSR0000SEFV": {
+    "frequency_short": "M",
+    "fetched_at": "2026-09-27"
+  },
+  "RETAILIRSA": {
+    "frequency_short": "M",
+    "fetched_at": "2026-09-27"
+  },
+  "BUSLOANS": {
+    "frequency_short": "M",
+    "fetched_at": "2026-09-27"
+  },
+  "IPG2211S": {
+    "frequency_short": "M",
+    "fetched_at": "2026-09-27"
+  },
+  "DFEDTARU": {
+    "frequency_short": "D",
+    "fetched_at": "2026-09-27"
+  },
+  "DGS10": {
+    "frequency_short": "D",
+    "fetched_at": "2026-09-27"
+  },
+  "RSAFS": {
+    "frequency_short": "M",
+    "fetched_at": "2026-09-27"
+  },
+  "DTWEXBGS": {
+    "frequency_short": "D",
+    "fetched_at": "2026-09-27"
+  },
+  "DEXUSEU": {
+    "frequency_short": "D",
+    "fetched_at": "2026-09-27"
+  },
+  "DCOILWTICO": {
+    "frequency_short": "D",
+    "fetched_at": "2026-09-27"
+  },
+  "BAMLH0A0HYM2": {
+    "frequency_short": "D",
+    "fetched_at": "2026-09-27"
+  },
+  "VIXCLS": {
+    "frequency_short": "D",
+    "fetched_at": "2026-09-27"
+  },
+  "DFII10": {
+    "frequency_short": "D",
+    "fetched_at": "2026-09-27"
+  },
+  "ICSA": {
+    "frequency_short": "W",
+    "fetched_at": "2026-09-28"
+  },
+  "SP500": {
+    "frequency_short": "D",
+    "fetched_at": "2026-09-28"
+  }
+}

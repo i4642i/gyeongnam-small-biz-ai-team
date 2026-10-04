@@ -1,0 +1,109 @@
+{
+  "allow_free_requests": true,
+  "strict_sources": false,
+  "tasks": [
+    {
+      "id": "t_9744c1",
+      "name": "상권 진단",
+      "description": "후보 동네(구)의 업종 구성 진단 → 등급",
+      "inputs": [
+        {
+          "name": "window_end",
+          "type": "text",
+          "required": true,
+          "options": [],
+          "default": ""
+        },
+        {
+          "name": "candidate",
+          "type": "json",
+          "required": true,
+          "options": [],
+          "default": ""
+        },
+        {
+          "name": "region",
+          "type": "text",
+          "required": true,
+          "options": [],
+          "default": "창원시"
+        },
+        {
+          "name": "area",
+          "type": "text",
+          "required": false,
+          "options": [],
+          "default": ""
+        },
+        {
+          "name": "upjong",
+          "type": "text",
+          "required": false,
+          "options": [],
+          "default": ""
+        }
+      ],
+      "instruction": "의뢰 지역: {region}\n의뢰 구역: {area} (비어 있으면 시 전체. 구 이름이나 '구 동' 이름이면 그 구역 안에서만 본다)\n의뢰 업종: {upjong} (비어 있으면 업종 전체)\n관측 종료일: {window_end}\n진단할 후보: {candidate}\n\n1. rag_search 로 '상권 진단 기준서'를 먼저 찾는다.\n2. semas_district 를 부른다(구는 플랫폼이 채운다).\n3. 등급(A·B·C·D·판단 불가)과 이유 한 문장. 도구가 자료를 못 주면 '판단 불가'.\n4. 본문(자유, 짧게, 한국어) 뒤에 아래 JSON. total_stores·by_upjong·scope 는 도구 값 그대로(scope 는 \"동 단위\" 또는 \"구 단위\").\n\n{\"report\": \"changwon_health\", \"area\": \"\", \"district\": \"\", \"window_end\": \"YYYY-MM-DD\",\n \"grade\": \"A|B|C|D|판단 불가\", \"grade_reason\": \"한 문장\", \"total_stores\": 0, \"scope\": \"동 단위|구 단위\", \"by_upjong\": [{\"name\": \"\", \"count\": 0, \"share_pct\": 0}], \"focus\": {}, \"advice\": \"소상공인에게 한 줄 조언\"}\n※ 의뢰 업종이 있으면 semas_district 가 focus(그 업종의 점포 수·비중·시 전체 대비 배수·세부 업종)도 준다. 등급 이유와 조언에 반영하고, JSON 에 focus 를 도구 값 그대로 옮긴다(없으면 생략).",
+      "output_template": "",
+      "check": null,
+      "output_schema": {
+        "type": "object",
+        "required": [
+          "report",
+          "area",
+          "district",
+          "grade",
+          "grade_reason",
+          "scope"
+        ],
+        "properties": {
+          "report": {
+            "const": "changwon_health"
+          },
+          "district": {
+            "enum": [
+              "마산합포구",
+              "마산회원구",
+              "성산구",
+              "의창구",
+              "진해구",
+              "거제시",
+              "김해시",
+              "양산시",
+              "진주시"
+            ]
+          },
+          "grade": {
+            "enum": [
+              "A",
+              "B",
+              "C",
+              "D",
+              "판단 불가"
+            ]
+          },
+          "scope": {
+            "enum": [
+              "동 단위",
+              "구 단위"
+            ]
+          },
+          "focus": {
+            "type": "object"
+          }
+        }
+      },
+      "retries": 2,
+      "on_failure": "fail",
+      "quote_source": "any",
+      "number_binding": false,
+      "required_tools": [
+        "semas_district",
+        "rag_search"
+      ],
+      "max_output_tokens": null,
+      "search_budget": 8,
+      "context_budget": null
+    }
+  ]
+}

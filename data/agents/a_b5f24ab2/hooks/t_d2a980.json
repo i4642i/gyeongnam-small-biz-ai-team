@@ -1,0 +1,18 @@
+{
+  "filename": "hook_picks.py",
+  "function": "check_picks",
+  "size": 3680,
+  "sha256": "35c57092a6f3fb4f",
+  "updated_at": "2026-09-30T04:04:39.449751+00:00",
+  "functions": [
+    "_region_cfgs",
+    "check_article",
+    "check_district",
+    "check_picks",
+    "districts",
+    "forbidden",
+    "phrases",
+    "prose",
+    "single_districts"
+  ]
+}

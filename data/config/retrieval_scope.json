@@ -1,0 +1,27 @@
+{
+  "_note": "캐릭터별 검색 범위(app/rag/scope.py). own=전문자료, computer=회사 컴퓨터에 적용할 키(ticker·doc_type·as_of). 없는 캐릭터는 셋 다 적용.",
+  "a_7612ec55": {
+    "own": [],
+    "computer": [
+      "as_of"
+    ]
+  },
+  "a_bcb2ef08": {
+    "own": [],
+    "computer": [
+      "as_of"
+    ]
+  },
+  "a_a28223e1": {
+    "own": [],
+    "computer": [
+      "as_of"
+    ]
+  },
+  "a_b5f24ab2": {
+    "own": [],
+    "computer": [
+      "as_of"
+    ]
+  }
+}

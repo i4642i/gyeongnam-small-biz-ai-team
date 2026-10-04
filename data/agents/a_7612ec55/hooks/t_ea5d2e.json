@@ -1,0 +1,18 @@
+{
+  "filename": "hook_topics.py",
+  "function": "check_topics",
+  "size": 3592,
+  "sha256": "99fd46af928f89b9",
+  "updated_at": "2026-09-30T04:04:33.858489+00:00",
+  "functions": [
+    "_region_cfgs",
+    "check_article",
+    "check_district",
+    "check_topics",
+    "districts",
+    "forbidden",
+    "phrases",
+    "prose",
+    "single_districts"
+  ]
+}
